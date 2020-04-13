@@ -45,6 +45,10 @@ public class WeightedQuickUnion {
 		}
 	}
 	
+	public int[] getIds() {
+		return id;
+	}
+	
 	public static void main(String[] args) {
 		WeightedQuickUnion quickUnion = new WeightedQuickUnion(10);
 		quickUnion.union(4, 3);
