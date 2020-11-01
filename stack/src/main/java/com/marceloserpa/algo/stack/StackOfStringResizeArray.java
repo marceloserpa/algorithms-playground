@@ -1,13 +1,13 @@
 package com.marceloserpa.algo.stack;
 
-public class StackResizeArray {
+public class StackOfStringResizeArray {
 
     private final static int STACK_CAPACITY = 2;
 
     private int last;
     private String[] stack;
 
-    public StackResizeArray(){
+    public StackOfStringResizeArray(){
         stack = new String[STACK_CAPACITY];
         last = 0;
     }
@@ -40,7 +40,7 @@ public class StackResizeArray {
     }
 
     public static void main(String[] args) {
-        StackResizeArray stack = new StackResizeArray();
+        StackOfStringResizeArray stack = new StackOfStringResizeArray();
         stack.push("5");
         stack.push("4");
         stack.push("3");

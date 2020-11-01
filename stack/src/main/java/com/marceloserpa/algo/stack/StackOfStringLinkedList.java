@@ -1,6 +1,6 @@
 package com.marceloserpa.algo.stack;
 
-public class StackLinkedList {
+public class StackOfStringLinkedList {
 
     private Node first;
 
@@ -37,7 +37,7 @@ public class StackLinkedList {
 
 
     public static void main(String[] args) {
-        StackLinkedList stack = new StackLinkedList();
+        StackOfStringLinkedList stack = new StackOfStringLinkedList();
         stack.push("5");
         stack.push("4");
         stack.push("3");

@@ -1,12 +1,12 @@
 package com.marceloserpa.algo.stack;
 
-public class StackArrayFixedCapacity {
+public class StackOfStringFixedCapacity {
 
     private int capacity;
     private int last;
     private String[] stack;
 
-    public StackArrayFixedCapacity(int capacity){
+    public StackOfStringFixedCapacity(int capacity){
         this.stack = new String[capacity];
         this.last = 0;
         this.capacity = capacity;
@@ -27,7 +27,7 @@ public class StackArrayFixedCapacity {
     }
 
     public static void main(String[] args) {
-        StackArrayFixedCapacity stack = new StackArrayFixedCapacity(5);
+        StackOfStringFixedCapacity stack = new StackOfStringFixedCapacity(5);
         stack.push("5");
         stack.push("4");
         stack.push("3");
