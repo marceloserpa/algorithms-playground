@@ -21,6 +21,11 @@ public class QueueLinkedList<T> implements Queue<T>{
         Node next;
     }
 
+    @Override
+    public T peek() {
+        return head.value;
+    }
+
     public void enqueue(T value){
         Node oldLast = last;
         last = new Node(value);
