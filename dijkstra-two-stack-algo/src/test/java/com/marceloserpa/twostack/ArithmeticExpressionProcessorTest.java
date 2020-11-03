@@ -17,6 +17,16 @@ class ArithmeticExpressionProcessorTest {
         assertEquals(101.0D, result);
     }
 
+    @Test
+    public void testNonSupportedOperation(){
+        String arithmeticExpression = "( 1 + ( ( sqrt ( 5.0 ) ) * ( 4 * 5 ) ) )";
 
+        ArithmeticExpressionProcessor processor = new ArithmeticExpressionProcessor();
+
+        assertThrows(RuntimeException.class, () ->{
+            processor.process(arithmeticExpression);
+        });
+
+    }
 
 }

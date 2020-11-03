@@ -1,9 +1,22 @@
 package com.marceloserpa.twostack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
+import java.util.function.ToDoubleBiFunction;
 
 
 public class ArithmeticExpressionProcessor {
+
+    private Map<String, ToDoubleBiFunction<Double, Double>> operationsProcessor;
+
+    public ArithmeticExpressionProcessor() {
+        operationsProcessor =  new HashMap<>();
+        operationsProcessor.put("+", (x, y) -> x + y);
+        operationsProcessor.put("-", (x, y) -> x - y);
+        operationsProcessor.put("/", (x, y) -> x / y);
+        operationsProcessor.put("*", (x, y) -> x * y);
+    }
 
     public Double process(String arithmeticExpression) {
         Stack<String> operations = new Stack<>();
@@ -22,33 +35,18 @@ public class ArithmeticExpressionProcessor {
                     operations.push(token);
                     break;
                 case ")":
-                    System.out.println("Starting evaluation");
                     String operation = operations.pop();
                     Double second = values.pop();
                     Double first = values.pop();
-                    String expression = String.format("%f %s %f", first, operation, second);
-                    System.out.println(">>> " + expression);
-
-                    switch (operation) {
-                        case "+":
-                            result = first + second;
-                            break;
-                        case "-":
-                            result = first - second;
-                            break;
-                        case "/":
-                            result = first / second;
-                            break;
-                        case "*":
-                            result = first * second;
-                            break;
-                        default:
-                            throw new RuntimeException("Operation " + operation + " is not supported");
-                    }
+                    result = operationsProcessor.get(operation).applyAsDouble(first, second);
                     values.push(result);
                     break;
                 default:
-                    values.push(Double.valueOf(token));
+                    try{
+                        values.push(Double.valueOf(token));
+                    } catch (NumberFormatException exception){
+                       throw new RuntimeException(token + " is not supported", exception);
+                    }
                     break;
             }
         }
