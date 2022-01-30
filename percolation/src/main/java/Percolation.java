@@ -33,6 +33,7 @@ public class Percolation {
 
         // connect bottoms nodes with bottom
         int bottom = (n * n - 1) - n;
+        if(bottom < 0) bottom = 0;
         for(int i = bottom; i < sites; i++) {
             dynamicConnection.union(virtualBottom, i);
         }
@@ -42,7 +43,7 @@ public class Percolation {
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
         if(row > matrixSize || col > matrixSize) {
-            //StdOut.println("Cannot open site row="+ row +" or col="+col + " invalid position");
+            StdOut.println("Cannot open site row="+ row +" or col="+col + " invalid position");
             return;
         }
 
@@ -51,33 +52,42 @@ public class Percolation {
         int siteIndex = calculateIndex(row, col);
         openSites[siteIndex] = true;
         totalOpenSites++;
+        StdOut.println(String.format("Opened site row=%d or col=%d", row, col));
 
         // try connect with other 4 neighbors (left, right, top, bottom) if open
 
         // connect to top neighbor
         int topNeighbor = calculateIndex(row -1, col);
+        StdOut.println(String.format("Connecting site row=%d or col=%d with top neighbor", row, col));
         if(topNeighbor >= 0 && openSites[topNeighbor]) {
             dynamicConnection.union(siteIndex, topNeighbor);
+            StdOut.println(String.format("Connected site row=%d or col=%d with top neighbor", row, col));
         }
 
         // connect to bottom neighbor
         int bottomNeighbor = calculateIndex(row + 1, col);
+        StdOut.println(String.format("Connecting site row=%d or col=%d with bottom neighbor", row, col));
         if(bottomNeighbor < (virtualBottom - 1) && openSites[bottomNeighbor]) {
             dynamicConnection.union(siteIndex, bottomNeighbor);
+            StdOut.println(String.format("Connected site row=%d or col=%d with bottom neighbor", row, col));
         }
 
         // connect to left neighbor
         int leftNeighbor = calculateIndex(row, col - 1);
+        StdOut.println(String.format("Connecting site row=%d or col=%d with left neighbor", row, col));
         if(leftNeighbor >= 0 && openSites[leftNeighbor]) {
             dynamicConnection.union(siteIndex, leftNeighbor);
+            StdOut.println(String.format("Connected site row=%d or col=%d with left neighbor", row, col));
         }
 
         // connect to right neighbor
         int rightNeighbor = calculateIndex(row, col + 1);
-        if(rightNeighbor <= matrixSize - 1 && openSites[rightNeighbor]) {
+        StdOut.println(String.format("Connecting site row=%d or col=%d with right neighbor", row, col));
+        if(rightNeighbor <= matrixSize * matrixSize - 1 && openSites[rightNeighbor]) {
             dynamicConnection.union(siteIndex, rightNeighbor);
+            StdOut.println(String.format("Connected site row=%d or col=%d with right neighbor", row, col));
         }
-
+        StdOut.println(String.format("Completed site row=%d or col=%d\n\n", row, col));
     }
 
     private int calculateIndex(int row, int col) {
@@ -92,6 +102,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
+        render();
         return dynamicConnection.connected(virtualTop, virtualBottom);
     }
 
