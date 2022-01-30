@@ -265,7 +265,35 @@ public class PercolationTest {
          *  -  x  -  -  -  -
          */
         Assertions.assertTrue(percolation.percolates());
+    }
 
+    @Test
+    public void shouldNotBeFull() {
+        Percolation percolation = new Percolation(6);
+        percolation.open(1, 6);
+        percolation.open(2, 6);
+        percolation.open(3, 6);
+        percolation.open(4, 6);
+        percolation.open(5, 6);
+        percolation.open(5, 5);
+        percolation.open(4, 4);
+        percolation.open(3, 4);
+        percolation.open(2, 4);
+        percolation.open(2, 3);
+        percolation.open(2, 2);
+        percolation.open(2, 1);
+
+        percolation.percolates();
+        /**
+         *  -  -  -  -  -  x
+         *  x  x  x  x  -  x
+         *  -  -  -  x  -  x
+         *  -  -  -  x  -  x
+         *  -  -  -  -  x  x
+         *  -  -  -  -  -  -
+         */
+
+        Assertions.assertFalse(percolation.isFull(2,1));
     }
 }
 
