@@ -28,13 +28,15 @@ public class Percolation {
 
         // connect top nodes with head
         for(int i =0; i < n; i++) {
+            //StdOut.println("Connect to virtual top: " + i);
             dynamicConnection.union(virtualTop, i);
         }
 
         // connect bottoms nodes with bottom
-        int bottom = (n * n - 1) - n;
+        int bottom = (n * n ) - n;
         if(bottom < 0) bottom = 0;
         for(int i = bottom; i < sites; i++) {
+            //StdOut.println("Connect to virtual bottom: " + i);
             dynamicConnection.union(virtualBottom, i);
         }
 
@@ -42,52 +44,49 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if(row > matrixSize || col > matrixSize) {
-            StdOut.println("Cannot open site row="+ row +" or col="+col + " invalid position");
-            return;
-        }
+        validate(row, col);
 
         if(isOpen(row, col)) return;
 
         int siteIndex = calculateIndex(row, col);
         openSites[siteIndex] = true;
         totalOpenSites++;
-        StdOut.println(String.format("Opened site row=%d or col=%d", row, col));
+        //StdOut.println(String.format("Opened site row=%d or col=%d", row, col));
 
         // try connect with other 4 neighbors (left, right, top, bottom) if open
 
         // connect to top neighbor
         int topNeighbor = calculateIndex(row -1, col);
-        StdOut.println(String.format("Connecting site row=%d or col=%d with top neighbor", row, col));
+        //StdOut.println(String.format("Connecting site row=%d or col=%d with top neighbor", row, col));
         if(topNeighbor >= 0 && openSites[topNeighbor]) {
             dynamicConnection.union(siteIndex, topNeighbor);
-            StdOut.println(String.format("Connected site row=%d or col=%d with top neighbor", row, col));
+            //StdOut.println(String.format("Connected site row=%d or col=%d with top neighbor", row, col));
         }
 
         // connect to bottom neighbor
         int bottomNeighbor = calculateIndex(row + 1, col);
-        StdOut.println(String.format("Connecting site row=%d or col=%d with bottom neighbor", row, col));
+        //StdOut.println(String.format("Connecting site row=%d or col=%d with bottom neighbor", row, col));
         if(bottomNeighbor < (virtualBottom - 1) && openSites[bottomNeighbor]) {
             dynamicConnection.union(siteIndex, bottomNeighbor);
-            StdOut.println(String.format("Connected site row=%d or col=%d with bottom neighbor", row, col));
+            //StdOut.println(String.format("Connected site row=%d or col=%d with bottom neighbor", row, col));
         }
 
         // connect to left neighbor
         int leftNeighbor = calculateIndex(row, col - 1);
-        StdOut.println(String.format("Connecting site row=%d or col=%d with left neighbor", row, col));
+        //StdOut.println(String.format("Connecting site row=%d or col=%d with left neighbor", row, col));
         if(leftNeighbor >= 0 && openSites[leftNeighbor]) {
             dynamicConnection.union(siteIndex, leftNeighbor);
-            StdOut.println(String.format("Connected site row=%d or col=%d with left neighbor", row, col));
+            //StdOut.println(String.format("Connected site row=%d or col=%d with left neighbor", row, col));
         }
 
         // connect to right neighbor
         int rightNeighbor = calculateIndex(row, col + 1);
-        StdOut.println(String.format("Connecting site row=%d or col=%d with right neighbor", row, col));
+        //StdOut.println(String.format("Connecting site row=%d or col=%d with right neighbor", row, col));
         if(rightNeighbor <= matrixSize * matrixSize - 1 && openSites[rightNeighbor]) {
             dynamicConnection.union(siteIndex, rightNeighbor);
-            StdOut.println(String.format("Connected site row=%d or col=%d with right neighbor", row, col));
+            //StdOut.println(String.format("Connected site row=%d or col=%d with right neighbor", row, col));
         }
-        StdOut.println(String.format("Completed site row=%d or col=%d\n\n", row, col));
+        //StdOut.println(String.format("Completed site row=%d or col=%d\n\n", row, col));
     }
 
     private int calculateIndex(int row, int col) {
@@ -108,24 +107,26 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col){
+        validate(row, col);
         int siteIndex = calculateIndex(row, col);
         return openSites[siteIndex];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        validate(row, col);
         int siteIndex = calculateIndex(row, col);
         return openSites[siteIndex] && dynamicConnection.connected(siteIndex, virtualTop);
     }
 
     private void render() {
-        StdOut.println("Percolation: ");
+        //StdOut.println("Percolation: ");
         int columnIndex = 1;
         boolean[] sites = openSites;
         for(int i = 0; i < sites.length; i++) {
-            StdOut.print(" " + ( openSites[i] ? "x" : "-") + " ");
+            //StdOut.print(" " + ( openSites[i] ? "x" : "-") + " ");
             if(columnIndex == matrixSize) {
-                StdOut.println("");
+                //StdOut.println("");
                 columnIndex = 1;
             } else {
                 columnIndex++;
@@ -134,37 +135,15 @@ public class Percolation {
 
     }
 
+    private void validate(int row, int col){
+        if(row <= 0 || col <= 0 || row > matrixSize || col > matrixSize) {
+            throw new IllegalArgumentException("invalid parameters");
+        }
+    }
+
     // test client (optional)
     public static void main(String[] args) {
-        /**
-        Percolation percolation = new Percolation(5);
-        percolation.open(1, 4);
-        percolation.open(2, 4);
-        percolation.open(2, 3);
-        percolation.open(3, 3);
-        percolation.open(4, 3);
-        percolation.open(4, 4);
-        percolation.open(5, 4);
 
-        percolation.render();
-       // StdOut.println(percolation.percolates());
-         **/
-
-
-
-        Percolation percolation = new Percolation(2);
-        //percolation.open(1, 3);
-        //percolation.open(1, 1);
-
-
-       // percolation.open(2,1);
-        //percolation.open(1,1);
-
-        percolation.render();
-
-        StdOut.println("isOpen = " + percolation.isOpen(1,1));
-        StdOut.println("full = " + percolation.isFull(1,1));
-         StdOut.println("percolate = " + percolation.percolates());
     }
 
 }
