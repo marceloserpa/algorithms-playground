@@ -295,6 +295,23 @@ public class PercolationTest {
 
         Assertions.assertFalse(percolation.isFull(2,1));
     }
+
+    @Test
+    public void shouldAvoidBackwash(){
+        Percolation percolation = new Percolation(3);
+        percolation.open(1,3);
+        percolation.open(2, 3);
+        percolation.open(3, 3);
+        percolation.open(3, 1);
+
+        // link: https://www.cs.princeton.edu/courses/archive/fall10/cos226/precepts/15UnionFind-Tarjan.pdf
+        /**
+         *  -  -  x
+         *  -  -  x
+         *  x  -  x
+         */
+        Assertions.assertFalse(percolation.isFull(3, 1));
+    }
 }
 
 
