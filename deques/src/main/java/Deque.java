@@ -57,17 +57,30 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the front
     public Item removeFirst() {
-        return null;
+        Item element = first.value;
+        first = first.next;
+        size--;
+        return element;
     }
 
     // remove and return the item from the back
     public Item removeLast() {
-        return null;
+        Node<Item> lastElement = first;
+        while(lastElement.next != null) {
+            lastElement = lastElement.next;
+        }
+        Item lastValue = lastElement.value;
+
+        Node prev = lastElement.getPrev();
+        prev.setNext(null);
+        lastElement = null;
+        this.size--;
+        return lastValue;
     }
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        return null;
+        return new ElementIterator();
     }
 
     private class Node<Item> {
@@ -107,6 +120,23 @@ public class Deque<Item> implements Iterable<Item> {
 
         public void setValue(Item value) {
             this.value = value;
+        }
+    }
+
+    private class ElementIterator implements Iterator<Item> {
+
+        Node<Item> current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current.next != null;
+        }
+
+        @Override
+        public Item next() {
+            Item value = current.getValue();
+            current = current.getNext();
+            return value;
         }
     }
 
