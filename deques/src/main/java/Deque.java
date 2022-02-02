@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
@@ -24,6 +25,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the front
     public void addFirst(Item item) {
+        if(item == null) {
+            throw  new IllegalArgumentException("item cannot be null");
+        }
         Node<Item> itemNode = new Node<>();
         itemNode.setValue(item);
         itemNode.setPrev(null);
@@ -39,6 +43,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the back
     public void addLast(Item item) {
+        if(item == null) {
+            throw  new IllegalArgumentException("item cannot be null");
+        }
         Node<Item> itemNode = new Node<>();
         itemNode.setValue(item);
         itemNode.setPrev(null);
@@ -57,6 +64,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the front
     public Item removeFirst() {
+        if(first == null) {
+            throw new NoSuchElementException("Queue is empty");
+        }
         Item element = first.value;
         first = first.next;
         size--;
@@ -65,6 +75,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the back
     public Item removeLast() {
+        if(first == null) {
+            throw new NoSuchElementException("Queue is empty");
+        }
         Node<Item> lastElement = first;
         while(lastElement.next != null) {
             lastElement = lastElement.next;
@@ -134,6 +147,9 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
+            if(current == null) {
+                throw new NoSuchElementException("The iterator has no more elements");
+            }
             Item value = current.getValue();
             current = current.getNext();
             return value;

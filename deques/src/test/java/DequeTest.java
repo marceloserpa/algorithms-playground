@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 class DequeTest {
 
@@ -63,6 +64,61 @@ class DequeTest {
         Assertions.assertEquals(1, values.next());
         Assertions.assertEquals(2, values.next());
         Assertions.assertEquals(3, values.next());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAddFirstNull(){
+        Deque<Integer> integers = new Deque<>();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            integers.addFirst(null);
+        });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAddLastNull(){
+        Deque<Integer> integers = new Deque<>();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            integers.addLast(null);
+        });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenRemoveFirstForEmptyQueue(){
+        Deque<Integer> empty = new Deque<>();
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            empty.removeFirst();
+        });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenRemoveLastForEmptyQueue(){
+        Deque<Integer> empty = new Deque<>();
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            empty.removeLast();
+        });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenClientCallsNextInEmptyInterator(){
+        Deque<Integer> numbers = new Deque<>();
+        numbers.addFirst(1);
+
+        Iterator<Integer> iterator = numbers.iterator();
+        iterator.next();
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            iterator.next();
+        });
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenClientCallsRemoveFromIterator(){
+        Deque<Integer> numbers = new Deque<>();
+        Iterator<Integer> iterator = numbers.iterator();
+
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            iterator.remove();
+        });
     }
 
 }
