@@ -121,4 +121,36 @@ class DequeTest {
         });
     }
 
+    @Test
+    public void shouldRemoveAllElementsSuccessfully(){
+        Deque<Integer> deque = new Deque<>();
+        Assertions.assertTrue(deque.isEmpty());
+        Assertions.assertTrue(deque.isEmpty());
+        deque.addLast(3);
+        Assertions.assertFalse(deque.isEmpty());
+        deque.removeLast();
+        Assertions.assertTrue(deque.isEmpty());
+    }
+
+    @Test
+    public void shouldReturnsNextElementsSuccessfully(){
+        Deque<Integer> deque = new Deque<>();
+        Assertions.assertTrue(deque.isEmpty());
+        deque.addLast(2);
+        Assertions.assertFalse(deque.isEmpty());
+        Assertions.assertFalse(deque.isEmpty());
+        Assertions.assertFalse(deque.isEmpty());
+        deque.addFirst(6);
+        Assertions.assertEquals(2, deque.size());
+        Assertions.assertFalse(deque.isEmpty());
+        deque.addLast(9);
+        Assertions.assertEquals(3, deque.size());
+
+        Iterator<Integer> iterator = deque.iterator();
+        Assertions.assertEquals(6, iterator.next());
+        Assertions.assertEquals(2, iterator.next());
+        Assertions.assertEquals(9, iterator.next());
+
+    }
+
 }

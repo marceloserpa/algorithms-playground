@@ -85,9 +85,12 @@ public class Deque<Item> implements Iterable<Item> {
         Item lastValue = lastElement.value;
 
         Node prev = lastElement.getPrev();
-        prev.setNext(null);
+        if(prev != null) {
+            prev.setNext(null);
+        }
         lastElement = null;
         this.size--;
+
         return lastValue;
     }
 
