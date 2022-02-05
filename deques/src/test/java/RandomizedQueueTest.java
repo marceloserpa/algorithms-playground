@@ -104,4 +104,18 @@ class RandomizedQueueTest {
         randomizedQueue.sample();
         Assertions.assertFalse(randomizedQueue.isEmpty());
     }
+
+    @Test
+    public void shouldSimulateCornerCase(){
+        RandomizedQueue rq = new RandomizedQueue();
+        rq.enqueue("IHFXWUSRPV");
+        rq.sample();
+        rq.enqueue("IBLCPNEXXY");
+        rq.sample();
+        rq.dequeue();
+
+        Assertions.assertEquals(1, rq.size());
+    }
+
+
 }

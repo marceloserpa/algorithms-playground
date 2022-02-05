@@ -155,7 +155,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         @Override
         public boolean hasNext() {
-            return current != null && current.next != null;
+            return current != null
+                   // && current.next != null;
+            ;
         }
 
         @Override

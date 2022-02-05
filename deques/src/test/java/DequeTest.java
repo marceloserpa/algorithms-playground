@@ -173,25 +173,21 @@ class DequeTest {
         Assertions.assertFalse(empty.iterator().hasNext());
     }
 
-    /**
-     *     - number of student   entries = 0
-     *     - number of reference entries = 1
-     *     - student iterator() yields wrong result
-     *       after applying add/remove operation 1 of 20
-     *     - student   iterator() = []
-     *     - reference iterator() = [1]
-     *     - sequence of operations was:
-     *          Deque<Integer> deque = new Deque<>()
-     *          deque.addFirst(1)
-     *          deque.iterator()     ==> []
-     */
-
     @Test
-    public void a(){
+    public void shouldIterateAllElementsFromQueue(){
         Deque<Integer> deque = new Deque<>();
         deque.addFirst(1);
+        deque.addFirst(2);
+
         Iterator<Integer> iterator = deque.iterator();
+
+        Assertions.assertTrue(iterator.hasNext());
+        Assertions.assertEquals(2, iterator.next());
+
+        Assertions.assertTrue(iterator.hasNext());
         Assertions.assertEquals(1, iterator.next());
+        Assertions.assertFalse(iterator.hasNext());
 
     }
+
 }

@@ -56,7 +56,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         int index = StdRandom.uniform(0, lastIndex);
         Item element = items[index];
         items[index] = items[lastIndex - 1];
-        items[lastIndex] = null;
+        items[lastIndex - 1] = null; // avoid loitering
         lastIndex--;
         return element;
     }
