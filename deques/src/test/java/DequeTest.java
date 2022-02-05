@@ -153,4 +153,45 @@ class DequeTest {
 
     }
 
+    @Test
+    public void shouldRemoveAllElements(){
+        Deque<Integer> deque = new Deque<>();
+        Assertions.assertTrue(deque.isEmpty());
+        Assertions.assertTrue(deque.isEmpty());
+        deque.addLast(3);
+        deque.addLast(4);
+        Assertions.assertFalse(deque.isEmpty());
+        deque.removeLast();
+        deque.removeLast();
+        Assertions.assertTrue(deque.isEmpty());
+    }
+
+    @Test
+    public void shouldNotThrowNPEOnHasNext(){
+        Deque<Integer> empty = new Deque<>();
+
+        Assertions.assertFalse(empty.iterator().hasNext());
+    }
+
+    /**
+     *     - number of student   entries = 0
+     *     - number of reference entries = 1
+     *     - student iterator() yields wrong result
+     *       after applying add/remove operation 1 of 20
+     *     - student   iterator() = []
+     *     - reference iterator() = [1]
+     *     - sequence of operations was:
+     *          Deque<Integer> deque = new Deque<>()
+     *          deque.addFirst(1)
+     *          deque.iterator()     ==> []
+     */
+
+    @Test
+    public void a(){
+        Deque<Integer> deque = new Deque<>();
+        deque.addFirst(1);
+        Iterator<Integer> iterator = deque.iterator();
+        Assertions.assertEquals(1, iterator.next());
+
+    }
 }

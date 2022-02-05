@@ -78,6 +78,13 @@ public class Deque<Item> implements Iterable<Item> {
         if(first == null) {
             throw new NoSuchElementException("Queue is empty");
         }
+
+        if(size == 1 ){
+            Item value = first.value;
+            size--;
+            first = null;
+            return value;
+        }
         Node<Item> lastElement = first;
         while(lastElement.next != null) {
             lastElement = lastElement.next;
@@ -141,11 +148,14 @@ public class Deque<Item> implements Iterable<Item> {
 
     private class ElementIterator implements Iterator<Item> {
 
-        Node<Item> current = first;
+        private Node<Item> current;
 
+        public ElementIterator(){
+            current = first;
+        }
         @Override
         public boolean hasNext() {
-            return current.next != null;
+            return current != null && current.next != null;
         }
 
         @Override
