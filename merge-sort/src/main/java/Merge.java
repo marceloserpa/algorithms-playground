@@ -1,4 +1,4 @@
-public class MergeSort {
+public class Merge {
 
     private static final int CUTOFF = 5;
 

@@ -12,7 +12,7 @@ public class Application {
         numbers[8] = 1;
         numbers[9] = 0;
 
-        MergeSort.sort(numbers);
+        MergeBottomUp.sort(numbers);
 
         System.out.println("\n\n");
         for(int i = 0; i < numbers.length; i++){
