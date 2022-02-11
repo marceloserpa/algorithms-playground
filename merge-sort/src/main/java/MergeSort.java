@@ -27,6 +27,7 @@ public class MergeSort {
     }
 
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
+        // avoid to use merge sort for small arrays
         if (hi <= lo + CUTOFF - 1) {
             Insertion.sort(a);
             return ;
@@ -35,6 +36,9 @@ public class MergeSort {
         int mid = lo + (hi - lo) / 2;
         sort(a, aux, lo, mid);
         sort(a, aux, mid + 1, hi);
+
+        // avoid invoke merge if already sorted
+        if(!less(a[mid+1], a[mid])) return;
         merge(a, aux, lo, mid, hi);
 
     }
