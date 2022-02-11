@@ -1,8 +1,5 @@
 public class MergeBottomUp {
 
-    private static final int CUTOFF = 5;
-
-
     private static void merge(Comparable[] a, int lo, int mid, int hi) {
         Comparable[] aux = new Comparable[a.length];
         for (int k = lo; k <= hi; k++)
@@ -24,10 +21,8 @@ public class MergeBottomUp {
     }
 
     public static void sort(Comparable[] a) {
-
         int n = a.length;
-        Comparable[] aux = new Comparable[n];
-        for(int sz =1; sz < n; sz = sz+sz) {
+        for(int sz =1; sz < n; sz = sz+sz) { // it removes the need to use recursion
             for (int lo = 0; lo < n - sz; lo += sz+sz) {
                 merge(a, lo, lo+sz-1, Math.min(lo+sz+sz-1, n - 1));
             }
