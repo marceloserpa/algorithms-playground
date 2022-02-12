@@ -23,14 +23,6 @@ class BruteCollinearPointsTest {
     }
 
     @Test
-    public void shouldReturnSegments() {
-        Point p = new Point(10000, 0);
-
-        BruteCollinearPoints bruteCollinearPoints = new BruteCollinearPoints(new Point[]{p});
-        Assertions.assertEquals(1, bruteCollinearPoints.segments());
-    }
-
-    @Test
     public void equidistant() {
         List<Point> points = new ArrayList<>();
         Point p1 = new Point(10000, 0);

@@ -6,6 +6,8 @@ import java.util.List;
 
 public class BruteCollinearPoints {
 
+    private static final int LOWER_POINT_FROM_SEGMENT = 0;
+    private static final int HIGHER_POINT_FROM_SEGMENT = 3;
     /**
      * Brute force. Write a program BruteCollinearPoints.java that examines 4 points at a time and checks whether they
      * all lie on the same line segment, returning all such line segments. To check whether the 4 points p, q, r, and s are collinear,
@@ -44,10 +46,10 @@ public class BruteCollinearPoints {
             }
         }
 
-        Point[] copy = Arrays.copyOf(points, points.length);
-        Arrays.sort(copy);
-        for (int i = 0; i < copy.length - 1; i++) {
-            if (copy[i].compareTo(copy[i + 1]) == 0)
+        Point[] copyOfPoints = Arrays.copyOf(points, points.length);
+        Arrays.sort(copyOfPoints);
+        for (int i = 0; i < copyOfPoints.length - 1; i++) {
+            if (copyOfPoints[i].compareTo(copyOfPoints[i + 1]) == 0)
                 throw new IllegalArgumentException("points cannot have duplicated points");
         }
 
@@ -62,34 +64,22 @@ public class BruteCollinearPoints {
 
         // complexity O(n ^4)
         // n!/(n-4)
-        for (int p = 0; p < copy.length; p++) {
-            for (int q = p + 1; q < copy.length; q++) {
-                for (int r = q + 1; r < copy.length; r++) {
-                    for (int s = r + 1; s < copy.length; s++) {
-                        if (copy[p].slopeTo(copy[q]) == copy[p].slopeTo(copy[r])
-                                && copy[p].slopeTo(copy[r]) == copy[p].slopeTo(copy[s])) {
+        for (int p = 0; p < copyOfPoints.length; p++) {
+            for (int q = p + 1; q < copyOfPoints.length; q++) {
+                for (int r = q + 1; r < copyOfPoints.length; r++) {
+                    for (int s = r + 1; s < copyOfPoints.length; s++) {
+                        if (copyOfPoints[p].slopeTo(copyOfPoints[q]) == copyOfPoints[p].slopeTo(copyOfPoints[r])
+                                && copyOfPoints[p].slopeTo(copyOfPoints[r]) == copyOfPoints[p].slopeTo(copyOfPoints[s])) {
 
-                            Point[] collinearSegment = new Point[] {copy[p], copy[q], copy[r], copy[s]};
-                            Arrays.sort(collinearSegment);
-                            LineSegment lineSegment = new LineSegment(collinearSegment[0], collinearSegment[3]);
-                            if(!segmentsCollinears.contains(lineSegment)){
-                                segmentsCollinears.add(lineSegment);
-                            }
+                            Point[] collinearPoints = new Point[]{copyOfPoints[p], copyOfPoints[q], copyOfPoints[r], copyOfPoints[s]};
+                            Arrays.sort(collinearPoints);
+                            segmentsCollinears.add(new LineSegment(collinearPoints[LOWER_POINT_FROM_SEGMENT], collinearPoints[HIGHER_POINT_FROM_SEGMENT]));
                         }
                     }
                 }
             }
         }
-
-
-        if (!segmentsCollinears.isEmpty()) {
-            segments = new LineSegment[segmentsCollinears.size()];
-            int index = 0;
-            for (LineSegment lineSegment : segmentsCollinears) {
-                segments[index] = lineSegment;
-                index++;
-            }
-        }
+        segments = segmentsCollinears.toArray(new LineSegment[]{});
     }
 
     // the number of line segments
