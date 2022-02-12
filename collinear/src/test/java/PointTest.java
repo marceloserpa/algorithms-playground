@@ -33,7 +33,7 @@ class PointTest {
     @Test
     public void shouldThrowsIllegalArgumentExceptionIfCompareToReceiveNull(){
         Point p = new Point(470, 439);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(NullPointerException.class, () -> {
             p.compareTo(null);
         });
     }
@@ -41,7 +41,7 @@ class PointTest {
     @Test
     public void shouldThrowsIllegalArgumentExceptionIfSlopeToReceiveNull(){
         Point p = new Point(470, 439);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(NullPointerException.class, () -> {
             p.slopeTo(null);
         });
     }

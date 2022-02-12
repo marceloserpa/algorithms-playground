@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdDraw;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,16 +62,19 @@ public class BruteCollinearPoints {
 
         // complexity O(n ^4)
         // n!/(n-4)
-        for (int p = 0; p < points.length; p++) {
-            for (int q = p + 1; q < points.length; q++) {
-                for (int r = p + 2; r < points.length; r++) {
-                    for (int s = p + 3; s < points.length; s++) {
-                        if (points[p].slopeTo(points[q]) == points[p].slopeTo(points[r])
-                                && points[p].slopeTo(points[r]) == points[p].slopeTo(points[s])) {
+        for (int p = 0; p < copy.length; p++) {
+            for (int q = p + 1; q < copy.length; q++) {
+                for (int r = q + 1; r < copy.length; r++) {
+                    for (int s = r + 1; s < copy.length; s++) {
+                        if (copy[p].slopeTo(copy[q]) == copy[p].slopeTo(copy[r])
+                                && copy[p].slopeTo(copy[r]) == copy[p].slopeTo(copy[s])) {
 
-                            // Point[] collinearSegment = new Point[] {points[p], points[q], points[r], points[s]};
-                            //Arrays.sort(collinearSegment);
-                            segmentsCollinears.add(new LineSegment(points[p], points[s]));
+                            Point[] collinearSegment = new Point[] {copy[p], copy[q], copy[r], copy[s]};
+                            Arrays.sort(collinearSegment);
+                            LineSegment lineSegment = new LineSegment(collinearSegment[0], collinearSegment[3]);
+                            if(!segmentsCollinears.contains(lineSegment)){
+                                segmentsCollinears.add(lineSegment);
+                            }
                         }
                     }
                 }
@@ -84,7 +89,6 @@ public class BruteCollinearPoints {
                 segments[index] = lineSegment;
                 index++;
             }
-
         }
     }
 
