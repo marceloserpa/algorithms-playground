@@ -47,4 +47,5 @@ class PointTest {
             p.slopeTo(null);
         });
     }
+
 }

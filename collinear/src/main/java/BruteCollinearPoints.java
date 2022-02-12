@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BruteCollinearPoints {
@@ -40,6 +41,12 @@ public class BruteCollinearPoints {
             }
         }
 
+        Point[] copy = Arrays.copyOf(points, points.length);
+        Arrays.sort(copy);
+        for (int i = 0; i < copy.length -1; i++){
+            if(copy[i].compareTo(copy[i+1]) == 0) throw new IllegalArgumentException("points cannot have duplicated points");
+        }
+
         /**
          * o check whether the 4 points p, q, r, and s are collinear,
          *      * check whether the three slopes between p and q, between p and r, and between p and s are all equal.
@@ -48,6 +55,9 @@ public class BruteCollinearPoints {
         List<LineSegment> segmentsCollinears =  new ArrayList<>();
 
         // https://en.wikipedia.org/wiki/Combination
+
+        // complexity O(n ^4)
+        // n!/(n-4)
         for(int p = 0; p < points.length; p++) {
             for(int q = p+1; q < points.length; q++) {
                 for(int r = p+2; r < points.length; r++) {
