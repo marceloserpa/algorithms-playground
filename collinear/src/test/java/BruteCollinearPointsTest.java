@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BruteCollinearPointsTest {
 
 
@@ -18,6 +16,14 @@ class BruteCollinearPointsTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new BruteCollinearPoints(points);
         });
+    }
+
+    @Test
+    public void shouldReturnSegments(){
+        Point p = new Point(10000, 0);
+
+        BruteCollinearPoints bruteCollinearPoints = new BruteCollinearPoints(new Point[]{p});
+        Assertions.assertEquals(1, bruteCollinearPoints.segments());
     }
 
 }

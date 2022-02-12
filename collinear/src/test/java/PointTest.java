@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PointTest {
 
     @Test
@@ -47,5 +45,14 @@ class PointTest {
             p.slopeTo(null);
         });
     }
+
+    @Test
+    public void shouldReturnPositiveInfinity(){
+        Point p = new Point(8, 7);
+        Point q = new Point(8, 0);
+
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, p.slopeTo(q));
+    }
+
 
 }
