@@ -61,6 +61,7 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+
         if (that == null) {
             throw new NullPointerException("that cannot be null");
         }
@@ -69,7 +70,7 @@ public class Point implements Comparable<Point> {
         } else if(this.x == that.x) {
             return Double.POSITIVE_INFINITY;
         } else if(this.y == that.y) {
-            return 0.0D;
+            return +0.0D;
         }
 
         double slope = ((double) that.y - this.y) / ((double) that.x - this.x);

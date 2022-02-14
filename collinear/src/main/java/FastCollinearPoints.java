@@ -14,43 +14,7 @@ public class FastCollinearPoints {
 
         List<LineSegment> collinearSegments = new ArrayList<>();
 
-
-        /**
-        Point[] internalPoints = Arrays.copyOf(points, points.length);
-        for (int p = 0; p < internalPoints.length - 1; p++) {
-            Arrays.sort(internalPoints, internalPoints[p].slopeOrder());
-
-            double latestSlope = internalPoints[p].slopeTo(internalPoints[p + 1]);
-
-            List<Point> pointsFound = new ArrayList<>();
-            pointsFound.add(internalPoints[p]);
-
-            for (int q =  2; q < internalPoints.length; q++) {
-
-                double slop = internalPoints[p].slopeTo(internalPoints[q]);
-                if (Double.compare(latestSlope, slop) == 0) {
-                    System.out.println("EQUALLLLL p = " + p + " q = " + q);
-                    pointsFound.add(internalPoints[q]);
-                } else {
-                    System.out.println("break");
-                    if(pointsFound.size() >= 3) {
-                        pointsFound.sort(null);
-                        Point begin = pointsFound.get(0);
-                        Point end = pointsFound.get(pointsFound.size() - 1);
-                        collinearSegments.add(new LineSegment(begin, end));
-                    }
-
-                    // cleanup
-                    pointsFound = new ArrayList<>();
-                    pointsFound.add(internalPoints[p]);
-                }
-
-
-            }
-        }
-         **/
-
-
+        List<String> createdSegments = new ArrayList<>();
         Point[] internalPoints = Arrays.copyOf(points, points.length);
         for (Point point : points) {
             Arrays.sort(internalPoints, point.slopeOrder());
@@ -60,19 +24,31 @@ public class FastCollinearPoints {
             List<Point> pointsFound = new ArrayList<>();
             pointsFound.add(internalPoints[1]);
 
-            for (int q = 1; q < internalPoints.length; q++) {
+            for (int q = 2; q < internalPoints.length; q++) {
 
                 double slop = point.slopeTo(internalPoints[q]);
-                if (Double.compare(latestSlope, slop) == 0) {
+                boolean isEquals = Double.compare(latestSlope, slop) == 0;
+                if (isEquals) {
                     //System.out.println("EQUALLLLL p = " + point + " q = " + q);
                     pointsFound.add(internalPoints[q]);
                 } else {
+                    latestSlope = slop;
+                }
+
+                boolean isTheEnd = q == internalPoints.length - 1;
+                if (!isEquals || isTheEnd) {
                     //System.out.println("break");
                     if(pointsFound.size() >= 3) {
                         pointsFound.sort(null);
                         Point begin = pointsFound.get(0);
                         Point end = pointsFound.get(pointsFound.size() - 1);
-                        collinearSegments.add(new LineSegment(begin, end));
+                        LineSegment lineSegment = new LineSegment(begin, end);
+                        String segmentId = begin + " -> " + end;
+                        if(!createdSegments.contains(segmentId)) {
+                            createdSegments.add(segmentId);
+                            collinearSegments.add(lineSegment);
+                        }
+
                     }
 
                     // cleanup
