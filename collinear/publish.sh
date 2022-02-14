@@ -10,7 +10,10 @@ fi
 
 mkdir tmp/collinear
 
-cp src/main/java/* tmp/collinear/
+cp src/main/java/BruteCollinearPoints.java tmp/collinear/BruteCollinearPoints.java
+cp src/main/java/FastCollinearPoints.java tmp/collinear/FastCollinearPoints.java
+cp src/main/java/LineSegment.java tmp/collinear/LineSegment.java
+cp src/main/java/Point.java tmp/collinear/Point.java
 
 cd tmp
 
