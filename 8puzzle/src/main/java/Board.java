@@ -1,20 +1,40 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
-
     private int [][] tiles;
 
+    private int blankSquareRow = 0;
+    private int blankSquareCol = 0;
+
+
     public Board(int[][] tiles){
-        this.tiles = tiles;
+        int n = tiles.length;
+        this.tiles = new int[n][n];
+
+        // create a copy
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                this.tiles[i][j] = tiles[i][j];
+                if(tiles[i][j] == 0) { // search for blank square
+                    blankSquareRow = i;
+                    blankSquareCol = j;
+                }
+            }
+        }
+
     }
 
     // string representation of this board
     public String toString(){
         StringBuilder sb = new StringBuilder();
+        sb.append(tiles.length).append("\n");
         for(int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles.length; j++) {
-                sb.append(tiles[i][j] + " ");
+                sb.append(" " + tiles[i][j]);
             }
             sb.append("\n");
         }
@@ -48,8 +68,46 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        return null;
+        List<Board> neighbors = new ArrayList<>();
+        // right
+        if(blankSquareCol > 0) {
+            neighbors.add(createNeighbor(blankSquareRow, blankSquareCol - 1));
+        }
+
+        // top
+        if(blankSquareRow > 0) {
+            neighbors.add(createNeighbor(blankSquareRow-1, blankSquareCol ));
+        }
+
+        // left
+        if(blankSquareCol < tiles.length) {
+            neighbors.add(createNeighbor(blankSquareRow, blankSquareCol+1));
+        }
+
+        // bottom
+        if(blankSquareRow < tiles.length) {
+            neighbors.add(createNeighbor(blankSquareRow+1, blankSquareCol));
+        }
+        return neighbors;
     }
+
+    private Board createNeighbor(int blankRow, int blankCol) {
+        int n = tiles.length;
+        int[][] newArray = new int[n][n];
+
+        for(int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                newArray[i][j] = tiles[i][j];
+            }
+        }
+
+        // swap
+        newArray[blankSquareRow][blankSquareCol] = newArray[blankRow][blankCol];
+        newArray[blankRow][blankCol] = 0; // move blank
+
+        return new Board(newArray);
+    }
+
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
@@ -77,10 +135,18 @@ public class Board {
         System.out.println(board.toString());
 
         /**
-         * 1 0 3
-         * 4 2 5
-         * 7 8 6 
+         3
+         1 0 3
+         4 2 5
+         7 8 6
          */
+
+        System.out.println("------");
+        int i = 1;
+        for(Board board1 : board.neighbors()){
+            System.out.println("# " + i++ + " === \n");
+            System.out.println(board1);
+        }
 
     }
 
