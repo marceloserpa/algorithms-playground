@@ -125,7 +125,17 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return false;
+        Board other = (Board) y;
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                if (tiles[i][j] != other.tiles[i][j]) {
+                    return false;
+                }
+            }
+
+        }
+        return true;
     }
 
     // all neighboring boards
