@@ -147,6 +147,10 @@ public class Board {
     public boolean equals(Object y) {
         Board other = (Board) y;
 
+        if(dimension() != other.dimension()) {
+            return false;
+        }
+
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
                 if (tiles[i][j] != other.tiles[i][j]) {

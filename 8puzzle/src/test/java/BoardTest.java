@@ -280,5 +280,35 @@ class BoardTest {
         Assertions.assertEquals(expectedTwin, board.twin());
     }
 
+    @Test
+    public void compareBoardsWithDifferent(){
+        int[][] grid1 = new int[2][2];
+        grid1[0][0] = 3;
+        grid1[0][1] = 1;
+
+        grid1[1][0] = 2;
+        grid1[1][1] = 0;
+
+        Board board1 = new Board(grid1);
+
+
+        int[][] grid2 = new int[3][3];
+        grid2[0][0] = 3;
+        grid2[0][1] = 1;
+        grid2[0][2] = 6;
+
+        grid2[1][0] = 2;
+        grid2[1][1] = 0;
+        grid2[1][2] = 8;
+
+        grid2[2][0] = 4;
+        grid2[2][1] = 5;
+        grid2[2][2] = 7;
+
+        Board board2 = new Board(grid2);
+
+        Assertions.assertNotEquals(board2, board1);
+    }
+
 
 }
