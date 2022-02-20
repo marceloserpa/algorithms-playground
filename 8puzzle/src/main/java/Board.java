@@ -5,21 +5,21 @@ public class Board {
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
-    private int [][] tiles;
+    private int[][] tiles;
 
     private int blankSquareRow = 0;
     private int blankSquareCol = 0;
 
 
-    public Board(int[][] tiles){
+    public Board(int[][] tiles) {
         int n = tiles.length;
         this.tiles = new int[n][n];
 
         // create a copy
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 this.tiles[i][j] = tiles[i][j];
-                if(tiles[i][j] == 0) { // search for blank square
+                if (tiles[i][j] == 0) { // search for blank square
                     blankSquareRow = i;
                     blankSquareCol = j;
                 }
@@ -29,11 +29,11 @@ public class Board {
     }
 
     // string representation of this board
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(tiles.length).append("\n");
-        for(int i = 0; i < tiles.length; i++) {
-            for(int j = 0; j < tiles.length; j++) {
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
                 sb.append(" " + tiles[i][j]);
             }
             sb.append("\n");
@@ -48,13 +48,75 @@ public class Board {
 
     // number of tiles out of place
     public int hamming() {
-        return 0;
+        int tilesOutOfPlace = 0;
+        int item = 1;
+        int blankSpaceFinalPosition = tiles.length * 2;
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                String message = "[i=" + i + " j=" + j + "] " + tiles[i][j] + " != " + item;
+
+                if (tiles[i][j] != 0) {
+                    if (item == blankSpaceFinalPosition) {
+                        if (tiles[i][j] != 0) {
+                            tilesOutOfPlace++;
+                            System.out.println(message + " x");
+                        }
+                    } else if (tiles[i][j] != item) {
+                        tilesOutOfPlace++;
+                        System.out.println(message + " x");
+                    } else {
+                        System.out.println(message + " v");
+                    }
+                }
+
+
+                item++;
+            }
+        }
+
+        return tilesOutOfPlace;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
-        return 0;
+        int manhattanDistance = 0;
+        int tmp = 1;
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                String message = tmp + " (" + i + "," + j + ") = " + tiles[i][j] + " distance=";
+
+                if (tiles[i][j] != 0) {
+                    if (tiles[i][j] == tmp) {
+                        System.out.println(message + " 0");
+                    } else {
+                        int distance = calcManhattanDistance(i, j, tiles[i][j]);
+                        System.out.println(message + " " + distance);
+                        manhattanDistance += distance;
+                    }
+
+
+                }
+                tmp++;
+
+            }
+        }
+
+        return manhattanDistance;
     }
+
+    private int calcManhattanDistance(int row, int col, int square) {
+        int dimension = tiles.length;
+
+        // find the goal X and Y axis
+        int goalCol = square == 0 ? dimension - 1 : (square - 1) % dimension;
+        int goalRow = square == 0 ? dimension - 1 : (square - 1) / dimension;
+
+        // calculate Manhattan distance
+        return  Math.abs(row - goalRow) + Math.abs(col - goalCol);
+    }
+
 
     // is this board the goal board?
     public boolean isGoal() {
@@ -70,23 +132,23 @@ public class Board {
     public Iterable<Board> neighbors() {
         List<Board> neighbors = new ArrayList<>();
         // right
-        if(blankSquareCol > 0) {
+        if (blankSquareCol > 0) {
             neighbors.add(createNeighbor(blankSquareRow, blankSquareCol - 1));
         }
 
         // top
-        if(blankSquareRow > 0) {
-            neighbors.add(createNeighbor(blankSquareRow-1, blankSquareCol ));
+        if (blankSquareRow > 0) {
+            neighbors.add(createNeighbor(blankSquareRow - 1, blankSquareCol));
         }
 
         // left
-        if(blankSquareCol < tiles.length) {
-            neighbors.add(createNeighbor(blankSquareRow, blankSquareCol+1));
+        if (blankSquareCol < tiles.length) {
+            neighbors.add(createNeighbor(blankSquareRow, blankSquareCol + 1));
         }
 
         // bottom
-        if(blankSquareRow < tiles.length) {
-            neighbors.add(createNeighbor(blankSquareRow+1, blankSquareCol));
+        if (blankSquareRow < tiles.length) {
+            neighbors.add(createNeighbor(blankSquareRow + 1, blankSquareCol));
         }
         return neighbors;
     }
@@ -95,7 +157,7 @@ public class Board {
         int n = tiles.length;
         int[][] newArray = new int[n][n];
 
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 newArray[i][j] = tiles[i][j];
             }
@@ -117,22 +179,27 @@ public class Board {
     // unit testing (not graded)
     public static void main(String[] args) {
 
-        int[][] a = new int[3][3];
 
-        a[0][0] = 1;
-        a[0][1] = 0;
-        a[0][2] = 3;
+        /**
+         int[][] a = new int[3][3];
 
-        a[1][0] = 4;
-        a[1][1] = 2;
-        a[1][2] = 5;
+         a[0][0] = 1;
+         a[0][1] = 0;
+         a[0][2] = 3;
 
-        a[2][0] = 7;
-        a[2][1] = 8;
-        a[2][2] = 6;
+         a[1][0] = 4;
+         a[1][1] = 2;
+         a[1][2] = 5;
 
-        Board board = new Board(a);
-        System.out.println(board.toString());
+         a[2][0] = 7;
+         a[2][1] = 8;
+         a[2][2] = 6;
+
+         Board board = new Board(a);
+         System.out.println(board.toString());
+         System.out.println(String.format("hamming distance : %d", board.hamming()));
+         System.out.println(String.format("manhatthan distance : %d", board.manhattan()));
+         **/
 
         /**
          3
@@ -142,11 +209,37 @@ public class Board {
          */
 
         System.out.println("------");
+
+        int[][] a = new int[3][3];
+
+        a[0][0] = 8;
+        a[0][1] = 1;
+        a[0][2] = 3;
+
+        a[1][0] = 4;
+        a[1][1] = 0;
+        a[1][2] = 2;
+
+        a[2][0] = 7;
+        a[2][1] = 6;
+        a[2][2] = 5;
+
+        Board board = new Board(a);
+        System.out.println(board.toString());
+        System.out.println(String.format("hamming distance : %d", board.hamming()));
+        System.out.println(String.format("manhatthan distance : %d", board.manhattan()));
+
+
+        /*
         int i = 1;
         for(Board board1 : board.neighbors()){
             System.out.println("# " + i++ + " === \n");
             System.out.println(board1);
+            System.out.println(String.format("hamming distance : %d", board1.hamming()));
+            System.out.println(String.format("manhatthan distance : %d", board1.manhattan()));
         }
+
+         */
 
     }
 
