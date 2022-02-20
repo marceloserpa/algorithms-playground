@@ -310,5 +310,50 @@ class BoardTest {
         Assertions.assertNotEquals(board2, board1);
     }
 
+    @Test
+    public void getNeighborsWithoutThrowException(){
+        int[][] grid1 = new int[2][2];
+        grid1[0][0] = 3;
+        grid1[0][1] = 1;
+
+        grid1[1][0] = 2;
+        grid1[1][1] = 0;
+
+        Board board = new Board(grid1);
+
+        List<Board> neighbors = StreamSupport.stream(board.neighbors().spliterator(), false)
+                .collect(Collectors.toList());
+        Assertions.assertEquals(2, neighbors.size());
+    }
+
+    @Test
+    public void compareNull(){
+        int[][] grid1 = new int[2][2];
+        grid1[0][0] = 3;
+        grid1[0][1] = 1;
+
+        grid1[1][0] = 2;
+        grid1[1][1] = 0;
+
+        Board board = new Board(grid1);
+
+        Assertions.assertFalse(board.equals(null));
+    }
+
+    @Test
+    public void compareInvalidObject(){
+        int[][] grid1 = new int[2][2];
+        grid1[0][0] = 3;
+        grid1[0][1] = 1;
+
+        grid1[1][0] = 2;
+        grid1[1][1] = 0;
+
+        Board board = new Board(grid1);
+
+        Assertions.assertFalse(board.equals("invalid"));
+    }
+
+
 
 }

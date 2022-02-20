@@ -145,6 +145,14 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
+        if(y == null) {
+            return false;
+        }
+
+        if(!y.getClass().equals(this.getClass())) {
+           return false;
+        }
+
         Board other = (Board) y;
 
         if(dimension() != other.dimension()) {
@@ -176,12 +184,12 @@ public class Board {
         }
 
         // left
-        if (blankSquareCol < tiles.length) {
+        if (blankSquareCol < tiles.length - 1) {
             neighbors.add(createNeighbor(blankSquareRow, blankSquareCol + 1));
         }
 
         // bottom
-        if (blankSquareRow < tiles.length) {
+        if (blankSquareRow < tiles.length - 1) {
             neighbors.add(createNeighbor(blankSquareRow + 1, blankSquareCol));
         }
         return neighbors;
