@@ -60,13 +60,13 @@ public class Board {
                     if (item == blankSpaceFinalPosition) {
                         if (tiles[i][j] != 0) {
                             tilesOutOfPlace++;
-                            System.out.println(message + " x");
+                           // System.out.println(message + " x");
                         }
                     } else if (tiles[i][j] != item) {
                         tilesOutOfPlace++;
-                        System.out.println(message + " x");
+                       // System.out.println(message + " x");
                     } else {
-                        System.out.println(message + " v");
+                       // System.out.println(message + " v");
                     }
                 }
 
@@ -89,10 +89,10 @@ public class Board {
 
                 if (tiles[i][j] != 0) {
                     if (tiles[i][j] == tmp) {
-                        System.out.println(message + " 0");
+                       // System.out.println(message + " 0");
                     } else {
                         int distance = calcManhattanDistance(i, j, tiles[i][j]);
-                        System.out.println(message + " " + distance);
+                      //  System.out.println(message + " " + distance);
                         manhattanDistance += distance;
                     }
 
@@ -120,7 +120,27 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal() {
-        return false;
+        int end = tiles.length - 1;
+
+        if(tiles[end][end] != 0) {
+            return false;
+        }
+
+        int current = 1;
+        for(int i = 0; i < tiles.length; i++) {
+            for(int j = 0; j < tiles.length; j++) {
+                if(tiles[i][j] != current) {
+                    if(i == end && j == end && tiles[i][j] == 0) {
+                        // zero always the last element
+                        return true;
+                    }
+                    return false;
+                }
+                current++;
+            }
+        }
+
+        return true;
     }
 
     // does this board equal y?
@@ -235,9 +255,9 @@ public class Board {
         a[2][2] = 5;
 
         Board board = new Board(a);
-        System.out.println(board.toString());
-        System.out.println(String.format("hamming distance : %d", board.hamming()));
-        System.out.println(String.format("manhatthan distance : %d", board.manhattan()));
+      //  System.out.println(board.toString());
+     //   System.out.println(String.format("hamming distance : %d", board.hamming()));
+      //  System.out.println(String.format("manhatthan distance : %d", board.manhattan()));
 
 
         /*
