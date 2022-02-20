@@ -43,14 +43,14 @@ public class Board {
 
     // board dimension n
     public int dimension() {
-        return 0;
+        return tiles.length;
     }
 
     // number of tiles out of place
     public int hamming() {
         int tilesOutOfPlace = 0;
         int item = 1;
-        int blankSpaceFinalPosition = tiles.length * 2;
+        int blankSpaceFinalPosition = tiles.length ^ tiles.length;
 
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
@@ -60,13 +60,13 @@ public class Board {
                     if (item == blankSpaceFinalPosition) {
                         if (tiles[i][j] != 0) {
                             tilesOutOfPlace++;
-                           // System.out.println(message + " x");
+                            System.out.println(message + " x");
                         }
                     } else if (tiles[i][j] != item) {
                         tilesOutOfPlace++;
-                       // System.out.println(message + " x");
+                        System.out.println(message + " x");
                     } else {
-                       // System.out.println(message + " v");
+                        System.out.println(message + " v");
                     }
                 }
 

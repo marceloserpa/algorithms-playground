@@ -155,4 +155,91 @@ class BoardTest {
     }
 
 
+    @Test
+    @DisplayName("Testing hamming in a 5-by-5 grid")
+    public void hamming5by5grid(){
+        int[][] grid = new int[5][5];
+        grid[0][0] = 7;
+        grid[0][1] = 14;
+        grid[0][2] = 12;
+        grid[0][3] = 1;
+        grid[0][4] = 6;
+
+        grid[1][0] = 20;
+        grid[1][1] = 3;
+        grid[1][2] = 22;
+        grid[1][3] = 8;
+        grid[1][4] = 10;
+
+        grid[2][0] = 16;
+        grid[2][1] = 2;
+        grid[2][2] = 13;
+        grid[2][3] = 4;
+        grid[2][4] = 23;
+
+        grid[3][0] = 0;
+        grid[3][1] = 19;
+        grid[3][2] = 21;
+        grid[3][3] = 18;
+        grid[3][4] = 24;
+
+        grid[4][0] = 11;
+        grid[4][1] = 17;
+        grid[4][2] = 15;
+        grid[4][3] = 5;
+        grid[4][4] = 9;
+
+        Board board = new Board(grid);
+
+
+        Assertions.assertEquals(22, board.hamming());
+    }
+
+    @Test
+    @DisplayName("Testing hamming in a 3-by-3 grid")
+    public void hamming3by3grid(){
+        int[][] grid = new int[3][3];
+        grid[0][0] = 2;
+        grid[0][1] = 1;
+        grid[0][2] = 7;
+
+        grid[1][0] = 0;
+        grid[1][1] = 5;
+        grid[1][2] = 6;
+
+        grid[2][0] = 8;
+        grid[2][1] = 4;
+        grid[2][2] = 3;
+
+
+        Board board = new Board(grid);
+
+
+        Assertions.assertEquals(6, board.hamming());
+    }
+
+    @Test
+    @DisplayName("Testing hamming in a 3-by-3 grid second scenario")
+    public void hamming3by3grid2(){
+        int[][] grid = new int[3][3];
+        grid[0][0] = 1;
+        grid[0][1] = 2;
+        grid[0][2] = 0;
+
+        grid[1][0] = 7;
+        grid[1][1] = 8;
+        grid[1][2] = 4;
+
+        grid[2][0] = 5;
+        grid[2][1] = 6;
+        grid[2][2] = 3;
+
+
+        Board board = new Board(grid);
+
+
+        Assertions.assertEquals(6, board.hamming());
+    }
+
+
 }

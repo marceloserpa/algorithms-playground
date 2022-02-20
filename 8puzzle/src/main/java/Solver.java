@@ -1,7 +1,15 @@
+import edu.princeton.cs.algs4.MinPQ;
+
 public class Solver {
 
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
+        int manhattan = initial.manhattan();
+        MinPQ<Board> poc = new MinPQ<>();
+        poc.insert(initial);
+
+        boolean goal = initial.isGoal();
+
 
     }
 
