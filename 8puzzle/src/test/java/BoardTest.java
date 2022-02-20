@@ -241,5 +241,44 @@ class BoardTest {
         Assertions.assertEquals(6, board.hamming());
     }
 
+    @Test
+    public void twin(){
+
+        int[][] grid = new int[3][3];
+        grid[0][0] = 5;
+        grid[0][1] = 0;
+        grid[0][2] = 4;
+
+        grid[1][0] = 2;
+        grid[1][1] = 3;
+        grid[1][2] = 8;
+
+        grid[2][0] = 7;
+        grid[2][1] = 1;
+        grid[2][2] = 6;
+
+        Board board = new Board(grid);
+
+
+
+        int[][] twinGrid = new int[3][3];
+        twinGrid[0][0] = 4;
+        twinGrid[0][1] = 0;
+        twinGrid[0][2] = 5;
+
+        twinGrid[1][0] = 2;
+        twinGrid[1][1] = 3;
+        twinGrid[1][2] = 8;
+
+        twinGrid[2][0] = 7;
+        twinGrid[2][1] = 1;
+        twinGrid[2][2] = 6;
+
+        Board expectedTwin = new Board(twinGrid);
+
+        Assertions.assertNotEquals(board, board.twin());
+        Assertions.assertEquals(expectedTwin, board.twin());
+    }
+
 
 }

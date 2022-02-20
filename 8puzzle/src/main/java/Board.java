@@ -60,13 +60,13 @@ public class Board {
                     if (item == blankSpaceFinalPosition) {
                         if (tiles[i][j] != 0) {
                             tilesOutOfPlace++;
-                            System.out.println(message + " x");
+                            //System.out.println(message + " x");
                         }
                     } else if (tiles[i][j] != item) {
                         tilesOutOfPlace++;
-                        System.out.println(message + " x");
+                        //System.out.println(message + " x");
                     } else {
-                        System.out.println(message + " v");
+                        //System.out.println(message + " v");
                     }
                 }
 
@@ -203,7 +203,61 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-        return null;
+
+        int n = tiles.length;
+        int[][] newArray = new int[n][n];
+
+        // create a copy from tiles
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                newArray[i][j] = tiles[i][j];
+            }
+        }
+
+        // find first axis non-zero
+        int[] firstAxis = findNonBlank(0, 0);
+        int row1 = firstAxis[0];
+        int col1 = firstAxis[1];
+
+
+        // find second axis non-zero
+        int y = col1 < n ? col1 +1 : col1;
+        int x = row1;
+
+        if(y == col1) {
+            x++;
+        }
+
+        int[] secondAxis = findNonBlank(x, y);
+
+        int row2 = secondAxis[0];
+        int col2 = secondAxis[1];
+
+
+
+        int tmp = newArray[row1][col1];
+
+        newArray[row1][col1] = newArray[row2][col2];
+        newArray[row2][col2] = tmp;
+
+        return new Board(newArray);
+    }
+
+    private int[] findNonBlank(int row, int col) {
+        int n = dimension();
+
+        int i = row, j = col;
+
+        outerloop:
+        for(; i < n; i++) {
+            for(; j < n; j++) {
+                if(tiles[i][j] != 0) {
+                    break outerloop;
+                }
+            }
+        }
+
+        return new int[]{i, j};
     }
 
     // unit testing (not graded)
