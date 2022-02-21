@@ -233,19 +233,18 @@ public class Board {
 
 
         // find second axis non-zero
-        int y = col1 < n ? col1 +1 : col1;
+        int y = col1 < n - 1 ? col1 +1 : col1;
         int x = row1;
 
         if(y == col1) {
             x++;
+            y=0;
         }
 
         int[] secondAxis = findNonBlank(x, y);
 
         int row2 = secondAxis[0];
         int col2 = secondAxis[1];
-
-
 
         int tmp = newArray[row1][col1];
 
@@ -258,18 +257,15 @@ public class Board {
     private int[] findNonBlank(int row, int col) {
         int n = dimension();
 
-        int i = row, j = col;
-
-        outerloop:
-        for(; i < n; i++) {
-            for(; j < n; j++) {
+        for(int i = row; i < n; i++) {
+            for( int j = col; j <  n; j++) {
                 if(tiles[i][j] != 0) {
-                    break outerloop;
+                    return new int[]{i, j};
                 }
             }
         }
 
-        return new int[]{i, j};
+        return new int[]{0, 0};
     }
 
     // unit testing (not graded)

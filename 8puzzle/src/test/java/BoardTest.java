@@ -259,8 +259,6 @@ class BoardTest {
 
         Board board = new Board(grid);
 
-
-
         int[][] twinGrid = new int[3][3];
         twinGrid[0][0] = 4;
         twinGrid[0][1] = 0;
@@ -324,6 +322,47 @@ class BoardTest {
         List<Board> neighbors = StreamSupport.stream(board.neighbors().spliterator(), false)
                 .collect(Collectors.toList());
         Assertions.assertEquals(2, neighbors.size());
+    }
+
+    @Test
+    public void getTwinWithoutThrowExceptionCornerCase(){
+        int[][] grid1 = new int[2][2];
+        grid1[0][0] = 0;
+        grid1[0][1] = 1;
+
+        grid1[1][0] = 3;
+        grid1[1][1] = 2;
+
+        Board board = new Board(grid1);
+
+        Board twin = board.twin();
+
+        int[][] expectedGrid = new int[2][2];
+        expectedGrid[0][0] = 0;
+        expectedGrid[0][1] = 3;
+
+        expectedGrid[1][0] = 1;
+        expectedGrid[1][1] = 2;
+
+        Board expectedBoard = new Board(expectedGrid);
+
+        Assertions.assertEquals(expectedBoard, twin);
+    }
+
+    @Test
+    public void getTwinWithoutThrowExceptionCornerCase2(){
+        int[][] grid1 = new int[2][2];
+        grid1[0][0] = 1;
+        grid1[0][1] = 0;
+
+        grid1[1][0] = 3;
+        grid1[1][1] = 2;
+
+        Board board = new Board(grid1);
+
+        Board twin = board.twin();
+
+        Assertions.assertNotEquals(board, twin);
     }
 
     @Test
