@@ -1,5 +1,4 @@
 import edu.princeton.cs.algs4.MinPQ;
-import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Stack;
 
 public class Solver {
@@ -17,13 +16,27 @@ public class Solver {
         searchNodeTwinMinPQ.insert(new SearchNode(searchNode.board.twin(), 0, null));
 
         SearchNode current = searchNodeMinPQ.delMin();
-        while(!current.board.isGoal()) {
+        SearchNode twinCurrent = searchNodeTwinMinPQ.delMin();
+        while(!current.board.isGoal() && !twinCurrent.board.isGoal()) {
             Iterable<Board> neighbors = current.board.neighbors();
             for(Board neighbor : neighbors) {
-                searchNodeMinPQ.insert(new SearchNode(neighbor, current.numberOfMoves + 1, current));
-            }
 
+                if(! (current.previous != null && current.previous.board.equals(neighbor))) {
+                    searchNodeMinPQ.insert(new SearchNode(neighbor, current.numberOfMoves + 1, current));
+                }
+
+            }
             current = searchNodeMinPQ.delMin();
+
+            // twin
+            Iterable<Board> neighborsTwin = twinCurrent.board.neighbors();
+            for(Board neighbor : neighborsTwin) {
+                if(!(twinCurrent.previous != null && twinCurrent.previous.board.equals(neighbor))){
+                    searchNodeTwinMinPQ.insert(new SearchNode(neighbor, twinCurrent.numberOfMoves + 1, twinCurrent));
+                }
+
+            }
+            twinCurrent = searchNodeTwinMinPQ.delMin();
         }
 
         endNode = current;
@@ -62,10 +75,13 @@ public class Solver {
         private int numberOfMoves;
         private SearchNode previous;
 
+        private int priority;
+
         public SearchNode(Board board, int numberOfMoves, SearchNode previous) {
             this.board = board;
             this.numberOfMoves = numberOfMoves;
             this.previous = previous;
+            this.priority = numberOfMoves + board.manhattan();
         }
 
         public Board getBoard() {
@@ -81,13 +97,13 @@ public class Solver {
         }
 
         public int getPriority(){
-            return this.numberOfMoves + this.board.manhattan();
+            return this.priority;
         }
 
         public int compareTo(SearchNode other) {
-            if(getPriority() == other.getPriority()) {
+            if(priority == other.getPriority()) {
                 return 0;
-            } else if(getPriority() > other.getPriority()) {
+            } else if(priority > other.getPriority()) {
                 return 1;
             } else {
                 return -1;
