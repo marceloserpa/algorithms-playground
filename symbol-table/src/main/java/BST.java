@@ -1,4 +1,5 @@
 import java.util.ArrayDeque;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class BST<Key extends Comparable<Key>, Value> {
@@ -10,6 +11,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         private Value value;
         private Node left, right;
         private int count;
+        private int n;
 
         public Node(Key key, Value value) {
             this.key = key;
@@ -69,7 +71,33 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
 
         public void delete(Key key) {
+            root = delete(root, key);
+        }
 
+        // hibbard deletion
+
+        /**
+         * The main defect of Hibbard deletion is that it unbalances the three, leading to Math.sqrt(n) height.
+         *
+         * If instead of replacing the node with its sucessor, you flip a coin and replace it with etheir its sucessor
+         * or predecessor, then, in practice, the height becomes logarithmic(but nobody has able to prove this fact by math)
+         */
+        private Node delete(Node x, Key key) {
+            if(x == null) return null;
+            int cmp = key.compareTo(x.key);
+            if(cmp < 0 ) x.left = delete(x.left, key);
+            else if(cmp > 0) x.right = delete(x.right, key);
+            else {
+                if(x.right == null) return x.left;
+                if(x.left == null) return x.right;
+
+                Node t = x;
+                x = min(t.right);
+                x.right = deleteMin(t.right);
+                x.left = t.left;
+            }
+            x.count = size(x.left) + size(x.right)  + 1;
+            return x;
         }
 
         // o(N)
@@ -111,6 +139,32 @@ public class BST<Key extends Comparable<Key>, Value> {
             return null;
         }
 
+        public Key min() {
+            if(root == null) {
+                throw new NoSuchElementException();
+            }
+            Node x = min(root);
+            return x.key;
+        }
+
+        private Node min(Node x) {
+            if(x.left == null) return x;
+            return min(x.left);
+        }
+
+        public void deleteMin(){
+            if(root == null) {
+                throw new NoSuchElementException();
+            }
+            root = deleteMin(root);
+        }
+
+        private Node deleteMin(Node x) {
+            if(x.left == null) return x.right;
+            x.left = deleteMin(x.left);
+            x.n = size(x.left) + size(x.right) + 1;
+            return x;
+        }
     }
 
 
