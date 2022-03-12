@@ -35,7 +35,6 @@ class PointSETTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> pointSET.contains(null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> pointSET.range(null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> pointSET.nearest(null));
-
     }
 
     @DisplayName("Test 3: insert random points; check nearest() with random query points\n" +
