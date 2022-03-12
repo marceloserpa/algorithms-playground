@@ -63,10 +63,10 @@ public class PointSET {
         for(Point2D point2D : points) {
             if(nearest == null) {
                 nearest = point2D;
-                distance = p.distanceTo(nearest);
+                distance = p.distanceSquaredTo(nearest);
             } else {
 
-                double tmp = p.distanceTo(nearest);
+                double tmp = p.distanceSquaredTo(nearest);
                 if(distance > tmp) {
                     distance = tmp;
                     nearest = p;
