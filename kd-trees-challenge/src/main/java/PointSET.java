@@ -17,12 +17,12 @@ public class PointSET {
     }
 
     public boolean isEmpty() {
-        return false;
+        return points.isEmpty();
     }
 
     // number of points in the set
     public int size() {
-        return 0;
+        return points.size();
     }
 
     // add the point to the set (if it is not already in the set)
