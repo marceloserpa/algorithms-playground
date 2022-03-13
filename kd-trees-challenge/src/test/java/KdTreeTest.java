@@ -100,7 +100,7 @@ class KdTreeTest {
     }
 
     @Test
-    public void queryByRectangle() {
+    public void rangeTest1() {
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(0.372D, 0.497D));
         kdTree.insert(new Point2D(0.564D, 0.413D));
@@ -134,5 +134,57 @@ class KdTreeTest {
         Assertions.assertTrue(points.contains(g.toString()));
         Assertions.assertTrue(points.contains(j.toString()));
     }
+
+    @DisplayName(" insert non-degenerate points; check range() with random query rectangles")
+    @Test
+    public void rangeTest2(){
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D( 0.0D, 0.75D));
+        kdTree.insert(new Point2D( 1.0D, 0.375D));
+        kdTree.insert(new Point2D( 0.625D, 0.5D));
+        kdTree.insert(new Point2D( 0.75D, 0.0D));
+        kdTree.insert(new Point2D( 0.5D, 1.0D));
+
+        RectHV rectangleQuery = new RectHV(0.125D, 0.625D,0.25D,  0.875D);
+
+
+        Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
+
+        Assertions.assertFalse(pointsFound.iterator().hasNext());
+    }
+
+
+
+    @DisplayName("query rectangle = [0.3125, 0.75] x [0.3125, 0.5625]")
+    @Test
+    public void rangeTest3() {
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.1875D, 0.25D));
+        kdTree.insert(new Point2D( 0.625D, 0.375D));
+        kdTree.insert(new Point2D(0.6875D, 0.5D));
+        kdTree.insert(new Point2D(0.8125D, 0.0D));
+        kdTree.insert(new Point2D(0.9375D, 0.6875D));
+        kdTree.insert(new Point2D( 0.0625D, 0.0625D));
+        kdTree.insert(new Point2D(1.0D, 0.75D));
+        kdTree.insert(new Point2D(0.0D, 0.9375D));
+        kdTree.insert(new Point2D( 0.125D, 0.1875D));
+        kdTree.insert(new Point2D(0.5625D, 1.0D));
+
+        RectHV rectangleQuery = new RectHV(0.3125D, 0.3125D,0.75D, 0.5625D);
+
+        Set<String> points = new HashSet<>();
+        Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
+        for (Point2D point2D : pointsFound) {
+            points.add(point2D.toString());
+        }
+
+        Point2D expectedB = new Point2D( 0.625D, 0.375D);
+        Point2D expPointC = new Point2D(0.6875D, 0.5D);
+
+        Assertions.assertTrue(points.contains(expectedB.toString()));
+        Assertions.assertTrue(points.contains(expPointC.toString()));
+    }
+
+
 
 }

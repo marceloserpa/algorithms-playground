@@ -264,9 +264,13 @@ public class KdTree {
             return ;
         }
 
-        if(query.intersects(node.rectHV)) {
+        if(query.contains(node.point)) {
             pointsMatched.add(node.point);
         }
+
+     //   if(query.intersects(node.rectHV)) {
+       //     pointsMatched.add(node.point);
+    //   }//
 
         range(query, node.right, pointsMatched);
         range(query, node.left, pointsMatched);
