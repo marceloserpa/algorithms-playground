@@ -1,7 +1,11 @@
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.RectHV;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 class KdTreeTest {
 
@@ -49,7 +53,7 @@ class KdTreeTest {
     }
 
     @Test
-    public void sizeTest2(){
+    public void sizeTest2() {
         KdTree kd = new KdTree();
         kd.insert(new Point2D(0.5D, 0.5D));
 
@@ -58,7 +62,7 @@ class KdTreeTest {
     }
 
     @Test
-    public void queryTest(){
+    public void queryTest() {
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(0.7D, 0.2D));
         kdTree.insert(new Point2D(0.5D, 0.4D));
@@ -72,7 +76,7 @@ class KdTreeTest {
     }
 
     @Test
-    public void queryInvalidPointTest(){
+    public void queryInvalidPointTest() {
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(0.7D, 0.2D));
         kdTree.insert(new Point2D(0.5D, 0.4D));
@@ -85,16 +89,50 @@ class KdTreeTest {
         Assertions.assertFalse(kdTree.contains(queryPoint));
     }
 
-
-
     @Test
-    public void queryTest2(){
+    public void queryTest2() {
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(1D, 0D));
 
         Point2D queryPoint = new Point2D(1D, 0D);
 
         Assertions.assertTrue(kdTree.contains(queryPoint));
+    }
+
+    @Test
+    public void queryByRectangle() {
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.372D, 0.497D));
+        kdTree.insert(new Point2D(0.564D, 0.413D));
+        kdTree.insert(new Point2D(0.226D, 0.577D));
+        kdTree.insert(new Point2D(0.144D, 0.179D));
+        kdTree.insert(new Point2D(0.083D, 0.51D));
+        kdTree.insert(new Point2D(0.32D, 0.708D));
+        kdTree.insert(new Point2D(0.417D, 0.362D));
+        kdTree.insert(new Point2D(0.862D, 0.825D));
+        kdTree.insert(new Point2D(0.785D, 0.725D));
+        kdTree.insert(new Point2D(0.499D, 0.208D));
+
+        RectHV rectangleQuery = new RectHV(0.222D, 0.208D,0.551D, 0.844D);
+
+        Set<String> points = new HashSet<>();
+        Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
+        for (Point2D point2D : pointsFound) {
+            points.add(point2D.toString());
+        }
+
+        Point2D a = new Point2D(0.372D, 0.497D);
+        Point2D c = new Point2D(0.226D, 0.577D);
+        Point2D f = new Point2D(0.32D, 0.708D);
+        Point2D g = new Point2D(0.417D, 0.362D);
+        Point2D j = new Point2D(0.499D, 0.208D);
+
+
+        Assertions.assertTrue(points.contains(a.toString()));
+        Assertions.assertTrue(points.contains(c.toString()));
+        Assertions.assertTrue(points.contains(f.toString()));
+        Assertions.assertTrue(points.contains(g.toString()));
+        Assertions.assertTrue(points.contains(j.toString()));
     }
 
 }
