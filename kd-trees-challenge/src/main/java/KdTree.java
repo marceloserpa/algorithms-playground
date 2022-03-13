@@ -49,17 +49,20 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
-        this.size++;
+        if(p == null ) throw new IllegalArgumentException("parameter cannot be null");
+
         if (this.root == null) {
             RectHV rectHV = new RectHV(0, 0, 1, 1);
             this.root = new Node(p, rectHV, 1);
+            this.size++;
             return;
         }
 
 
-        if(this.contains(p)) {
+        if (this.contains(p)) {
             return;
         }
+        this.size++;
         this.root = insert(this.root, this.root.rectHV, p, 0);
     }
 
@@ -175,15 +178,16 @@ public class KdTree {
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
+        if(p == null ) throw new IllegalArgumentException("parameter cannot be null");
         return search(p, root);
     }
 
     private boolean search(Point2D point, Node node) {
-        if(node == null) {
+        if (node == null) {
             return false;
         }
 
-        if(point.equals(node.point)) {
+        if (point.equals(node.point)) {
             return true;
         }
 
@@ -259,21 +263,22 @@ public class KdTree {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
-       List<Point2D> points = new ArrayList<>();
-       range(rect, root, points);
+        if(rect == null ) throw new IllegalArgumentException("parameter cannot be null");
+        List<Point2D> points = new ArrayList<>();
+        range(rect, root, points);
         return points;
     }
 
 
     private void range(RectHV query, Node node, List<Point2D> pointsMatched) {
 
-        if(node == null) {
-            return ;
+        if (node == null) {
+            return;
         }
 
-        if(query.intersects(node.rectHV)) {
+        if (query.intersects(node.rectHV)) {
 
-            if(query.contains(node.point)){
+            if (query.contains(node.point)) {
                 pointsMatched.add(node.point);
             }
 
@@ -286,9 +291,53 @@ public class KdTree {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
+        if(p == null ) throw new IllegalArgumentException("parameter cannot be null");
+        return nearestRec(p, root, root.point);
 
-        return null;
     }
+
+    /**
+     * Nearest-neighbor search. To find a closest point to a given query point, start at the root and recursively search
+     * in both subtrees using the following pruning rule: if the closest point discovered so far is closer than the
+     * distance between the query point and the rectangle corresponding to a node, there is no need to explore that
+     * node (or its subtrees). That is, search a node only only if it might contain a point that is closer than the best
+     * one found so far. The effectiveness of the pruning rule depends on quickly finding a nearby point. To do this,
+     * organize the recursive method so that when there are two possible subtrees to go down, you always choose the
+     * subtree that is on the same side of the splitting line as the query point as the first subtree to explore—the
+     * closest point found while exploring the first subtree may enable pruning of the second subtree.
+     */
+    private Point2D nearestRec(Point2D queryPoint, Node navigationNode, Point2D closerPoint) {
+        if (navigationNode == null) {
+            return closerPoint;
+        }
+
+        double distanceCloser         = queryPoint.distanceSquaredTo(closerPoint);
+        double distanceNavigationNode = queryPoint.distanceSquaredTo(navigationNode.point);
+
+
+        double min = distanceCloser;
+        Point2D nearestPoint = closerPoint;
+
+        if(distanceNavigationNode < distanceCloser) {
+            min = distanceNavigationNode;
+            nearestPoint = navigationNode.point;
+        }
+
+
+        if(navigationNode.left != null) {
+            nearestPoint = nearestRec(queryPoint, navigationNode.left, nearestPoint);
+        }
+
+
+        if(navigationNode.right != null) {
+            nearestPoint = nearestRec(queryPoint, navigationNode.right, nearestPoint);
+        }
+
+        return nearestPoint;
+
+    }
+
+
 
 
     // unit testing of the methods (optional)
@@ -300,6 +349,10 @@ public class KdTree {
         kdTree.insert(new Point2D(0.4D, 0.7D));
         kdTree.insert(new Point2D(0.9D, 0.6D));
         kdTree.draw();
+
+        Point2D queryPoint = new Point2D(0.489D, 0.992D);
+
+        Point2D nearest = kdTree.nearest(queryPoint);
 
     }
 

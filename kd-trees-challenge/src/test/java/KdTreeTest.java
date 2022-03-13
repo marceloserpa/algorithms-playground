@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -114,7 +115,7 @@ class KdTreeTest {
         kdTree.insert(new Point2D(0.785D, 0.725D));
         kdTree.insert(new Point2D(0.499D, 0.208D));
 
-        RectHV rectangleQuery = new RectHV(0.222D, 0.208D,0.551D, 0.844D);
+        RectHV rectangleQuery = new RectHV(0.222D, 0.208D, 0.551D, 0.844D);
 
         Set<String> points = new HashSet<>();
         Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
@@ -138,15 +139,15 @@ class KdTreeTest {
 
     @DisplayName(" insert non-degenerate points; check range() with random query rectangles")
     @Test
-    public void rangeTest2(){
+    public void rangeTest2() {
         KdTree kdTree = new KdTree();
-        kdTree.insert(new Point2D( 0.0D, 0.75D));
-        kdTree.insert(new Point2D( 1.0D, 0.375D));
-        kdTree.insert(new Point2D( 0.625D, 0.5D));
-        kdTree.insert(new Point2D( 0.75D, 0.0D));
-        kdTree.insert(new Point2D( 0.5D, 1.0D));
+        kdTree.insert(new Point2D(0.0D, 0.75D));
+        kdTree.insert(new Point2D(1.0D, 0.375D));
+        kdTree.insert(new Point2D(0.625D, 0.5D));
+        kdTree.insert(new Point2D(0.75D, 0.0D));
+        kdTree.insert(new Point2D(0.5D, 1.0D));
 
-        RectHV rectangleQuery = new RectHV(0.125D, 0.625D,0.25D,  0.875D);
+        RectHV rectangleQuery = new RectHV(0.125D, 0.625D, 0.25D, 0.875D);
 
 
         Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
@@ -155,23 +156,22 @@ class KdTreeTest {
     }
 
 
-
     @DisplayName("query rectangle = [0.3125, 0.75] x [0.3125, 0.5625]")
     @Test
     public void rangeTest3() {
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(0.1875D, 0.25D));
-        kdTree.insert(new Point2D( 0.625D, 0.375D));
+        kdTree.insert(new Point2D(0.625D, 0.375D));
         kdTree.insert(new Point2D(0.6875D, 0.5D));
         kdTree.insert(new Point2D(0.8125D, 0.0D));
         kdTree.insert(new Point2D(0.9375D, 0.6875D));
-        kdTree.insert(new Point2D( 0.0625D, 0.0625D));
+        kdTree.insert(new Point2D(0.0625D, 0.0625D));
         kdTree.insert(new Point2D(1.0D, 0.75D));
         kdTree.insert(new Point2D(0.0D, 0.9375D));
-        kdTree.insert(new Point2D( 0.125D, 0.1875D));
+        kdTree.insert(new Point2D(0.125D, 0.1875D));
         kdTree.insert(new Point2D(0.5625D, 1.0D));
 
-        RectHV rectangleQuery = new RectHV(0.3125D, 0.3125D,0.75D, 0.5625D);
+        RectHV rectangleQuery = new RectHV(0.3125D, 0.3125D, 0.75D, 0.5625D);
 
         Set<String> points = new HashSet<>();
         Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
@@ -179,7 +179,7 @@ class KdTreeTest {
             points.add(point2D.toString());
         }
 
-        Point2D expectedB = new Point2D( 0.625D, 0.375D);
+        Point2D expectedB = new Point2D(0.625D, 0.375D);
         Point2D expPointC = new Point2D(0.6875D, 0.5D);
 
         Assertions.assertTrue(points.contains(expectedB.toString()));
@@ -189,19 +189,19 @@ class KdTreeTest {
 
     @DisplayName("Cannot return duplicated points")
     @Test
-    public void rangeTest4(){
+    public void rangeTest4() {
         KdTree kdTree = new KdTree();
-        kdTree.insert(new Point2D( 1.0D, 1.0D));
-        kdTree.insert(new Point2D( 1.0D, 1.0D));
+        kdTree.insert(new Point2D(1.0D, 1.0D));
+        kdTree.insert(new Point2D(1.0D, 1.0D));
         kdTree.insert(new Point2D(1.0D, 0.0D));
         kdTree.insert(new Point2D(1.0D, 0.0D));
         kdTree.insert(new Point2D(0.5D, 1.0D));
 
-        RectHV rectangleQuery = new RectHV(0.75D, 0.75D,1.0D, 1.0D);
+        RectHV rectangleQuery = new RectHV(0.75D, 0.75D, 1.0D, 1.0D);
 
         Iterator<Point2D> pointsFoundIterator = kdTree.range(rectangleQuery).iterator();
 
-        Point2D expectedB = new Point2D( 1.0D, 1.0D);
+        Point2D expectedB = new Point2D(1.0D, 1.0D);
 
         Assertions.assertTrue(pointsFoundIterator.hasNext());
 
@@ -214,16 +214,16 @@ class KdTreeTest {
 
     @DisplayName("test: performs incorrect traversal of kd-tree during call to range()")
     @Test
-    public void rangeTest5(){
+    public void rangeTest5() {
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(0.0D, 0.375D));
-        kdTree.insert(new Point2D( 1.0D, 0.0D));
+        kdTree.insert(new Point2D(1.0D, 0.0D));
         kdTree.insert(new Point2D(0.5D, 0.5D));
-        kdTree.insert(new Point2D( 0.125D, 0.125D));
-        kdTree.insert(new Point2D( 0.625D, 1.0D));
-        kdTree.insert(new Point2D( 0.375D, 0.625D));
+        kdTree.insert(new Point2D(0.125D, 0.125D));
+        kdTree.insert(new Point2D(0.625D, 1.0D));
+        kdTree.insert(new Point2D(0.375D, 0.625D));
 
-        RectHV rectangleQuery = new RectHV(0.75D, 0.25D,0.875D,  0.75D);
+        RectHV rectangleQuery = new RectHV(0.75D, 0.25D, 0.875D, 0.75D);
 
         Set<String> points = new HashSet<>();
         Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
@@ -244,6 +244,60 @@ class KdTreeTest {
         Assertions.assertTrue(points.contains(expectedE.toString()));
     }
 
+    @Test
+    public void nearestTest1() {
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.7D, 0.2));
+        kdTree.insert(new Point2D(0.5D, 0.4));
+        kdTree.insert(new Point2D(0.2D, 0.3));
+        kdTree.insert(new Point2D(0.4D, 0.7));
+        kdTree.insert(new Point2D(0.9D, 0.6));
+
+
+        Point2D queryPoint = new Point2D(0.84D, 0.5D);
+
+
+        // Point2D expectedA = new Point2D( 0.7D, 0.2);
+        Point2D expectedE = new Point2D(0.9D, 0.6);
+
+        Assertions.assertEquals(expectedE, kdTree.nearest(queryPoint));
+
+    }
+
+    @Test
+    public void nearestTest2() {
+        /**
+         *     - failed on trial 28 of 10000
+         *     - sequence of points inserted:
+         *       A  0.7 0.2
+         *       B  0.5 0.4
+         *       C  0.2 0.3
+         *       D  0.4 0.7
+         *       E  0.9 0.6
+         *     - query point                   = (0.489, 0.992)xxxxxxxxxx
+         *     - student   nearest()           = (0.9, 0.6)
+         *     - reference nearest()           = (0.4, 0.7)
+         *     - student   distanceSquaredTo() = 0.322585
+         *     - reference distanceSquaredTo() = 0.093185
+         */
+
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.7D, 0.2));
+        kdTree.insert(new Point2D(0.5D, 0.4));
+        kdTree.insert(new Point2D(0.2D, 0.3));
+        kdTree.insert(new Point2D(0.4D, 0.7));
+        kdTree.insert(new Point2D(0.9D, 0.6));
+
+
+        Point2D queryPoint = new Point2D(0.489D, 0.992D);
+
+
+        // Point2D expectedA = new Point2D( 0.7D, 0.2);
+        Point2D expected = new Point2D(0.4D, 0.7D);
+
+        Assertions.assertEquals(expected, kdTree.nearest(queryPoint));
+        Assertions.assertEquals( 0.09318500000000002D, queryPoint.distanceSquaredTo(expected));
+    }
 
 
 }
