@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 class KdTreeTest {
@@ -183,6 +184,64 @@ class KdTreeTest {
 
         Assertions.assertTrue(points.contains(expectedB.toString()));
         Assertions.assertTrue(points.contains(expPointC.toString()));
+    }
+
+
+    @DisplayName("Cannot return duplicated points")
+    @Test
+    public void rangeTest4(){
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D( 1.0D, 1.0D));
+        kdTree.insert(new Point2D( 1.0D, 1.0D));
+        kdTree.insert(new Point2D(1.0D, 0.0D));
+        kdTree.insert(new Point2D(1.0D, 0.0D));
+        kdTree.insert(new Point2D(0.5D, 1.0D));
+
+        RectHV rectangleQuery = new RectHV(0.75D, 0.75D,1.0D, 1.0D);
+
+        Iterator<Point2D> pointsFoundIterator = kdTree.range(rectangleQuery).iterator();
+
+        Point2D expectedB = new Point2D( 1.0D, 1.0D);
+
+        Assertions.assertTrue(pointsFoundIterator.hasNext());
+
+        Point2D returnedPoint = pointsFoundIterator.next();
+        Assertions.assertEquals(expectedB, returnedPoint);
+
+        Assertions.assertFalse(pointsFoundIterator.hasNext());
+    }
+
+
+    @DisplayName("test: performs incorrect traversal of kd-tree during call to range()")
+    @Test
+    public void rangeTest5(){
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.0D, 0.375D));
+        kdTree.insert(new Point2D( 1.0D, 0.0D));
+        kdTree.insert(new Point2D(0.5D, 0.5D));
+        kdTree.insert(new Point2D( 0.125D, 0.125D));
+        kdTree.insert(new Point2D( 0.625D, 1.0D));
+        kdTree.insert(new Point2D( 0.375D, 0.625D));
+
+        RectHV rectangleQuery = new RectHV(0.75D, 0.25D,0.875D,  0.75D);
+
+        Set<String> points = new HashSet<>();
+        Iterable<Point2D> pointsFound = kdTree.range(rectangleQuery);
+        for (Point2D point2D : pointsFound) {
+            points.add(point2D.toString());
+        }
+
+        Point2D expectedA = new Point2D(0.0D, 0.375D);
+        Point2D expectedB = new Point2D(1.0D, 0.0D);
+        Point2D expectedC = new Point2D(0.5D, 0.5D);
+        Point2D expectedE = new Point2D(0.625D, 1.0D);
+
+
+        Assertions.assertEquals(4, points.size());
+        Assertions.assertTrue(points.contains(expectedA.toString()));
+        Assertions.assertTrue(points.contains(expectedB.toString()));
+        Assertions.assertTrue(points.contains(expectedC.toString()));
+        Assertions.assertTrue(points.contains(expectedE.toString()));
     }
 
 

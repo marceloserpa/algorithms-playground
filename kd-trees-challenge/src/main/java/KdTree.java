@@ -49,12 +49,17 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
+        this.size++;
         if (this.root == null) {
             RectHV rectHV = new RectHV(0, 0, 1, 1);
             this.root = new Node(p, rectHV, 1);
             return;
         }
-        this.size++;
+
+
+        if(this.contains(p)) {
+            return;
+        }
         this.root = insert(this.root, this.root.rectHV, p, 0);
     }
 
@@ -259,21 +264,24 @@ public class KdTree {
         return points;
     }
 
+
     private void range(RectHV query, Node node, List<Point2D> pointsMatched) {
+
         if(node == null) {
             return ;
         }
 
-        if(query.contains(node.point)) {
-            pointsMatched.add(node.point);
+        if(query.intersects(node.rectHV)) {
+
+            if(query.contains(node.point)){
+                pointsMatched.add(node.point);
+            }
+
+            range(query, node.right, pointsMatched);
+            range(query, node.left, pointsMatched);
         }
 
-     //   if(query.intersects(node.rectHV)) {
-       //     pointsMatched.add(node.point);
-    //   }//
 
-        range(query, node.right, pointsMatched);
-        range(query, node.left, pointsMatched);
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
