@@ -17,14 +17,20 @@ public class KdTree {
     private class Node {
 
         private Point2D point;
+        private RectHV rectHV;
         private int level;
 
         private Node left;
         private Node right;
 
-        public Node(Point2D point, int level) {
+        public Node(Point2D point, RectHV rectHV, int level) {
             this.point = point;
+            this.rectHV = rectHV;
             this.level = level;
+        }
+
+        public boolean isX() {
+            return this.level % 2 != 0;
         }
     }
 
@@ -43,7 +49,12 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
-        this.root = insert(this.root, p, 0);
+        if (this.root == null) {
+            RectHV rectHV = new RectHV(0, 0, 1, 1);
+            this.root = new Node(p, rectHV, 1);
+            return;
+        }
+        this.root = insert(this.root, this.root.rectHV, p, 0);
     }
 
     /**
@@ -53,29 +64,108 @@ public class KdTree {
      * y-coordinate than the point in the node, go left; otherwise go right); then at the next level the x-coordinate,
      * and so forth.
      */
-    private Node insert(Node node, Point2D newPoint, int prevLevel) {
+
+    private Node insert(Node node, RectHV rectHV, Point2D newPoint, int prevLevel) {
         // navigation
         if (node != null) {
             /**
              * odd = x-coordinate
              * even = y-coordinate
              */
-            if (node.level % 2 != 0) {
+            if (node.isX()) {
                 if (newPoint.x() < node.point.x()) {
-                    node.left = insert(node.left, newPoint, node.level);
+                    System.out.println("-- X + LEFT");
+                    RectHV area = null;
+                    if (node.left == null) {
+                        // calculate half-left
+                        //new RectHV()
+
+                        double xmin = node.rectHV.xmin();
+                        double ymin = node.rectHV.ymin();
+                        double xmax = node.point.x();
+                        double ymax = node.rectHV.ymax();
+
+                        area = new RectHV(xmin, ymin, xmax, ymax);
+
+                    }
+
+                    if (area == null) {
+                        area = node.left.rectHV;
+                    }
+
+                    node.left = insert(node.left, area, newPoint, node.level);
                 } else {
-                    node.right = insert(node.right, newPoint, node.level);
+                    System.out.println("-- X + RIGHT");
+                    RectHV area = null;
+                    if (node.right == null) {
+                        // calculate half-right
+                        //new RectHV()
+
+                        double xmin = node.point.x();
+                        double ymin = node.rectHV.ymin();
+                        double xmax = node.rectHV.xmax();
+                        double ymax = node.rectHV.ymax();
+
+                        area = new RectHV(xmin, ymin, xmax, ymax);
+
+                    }
+
+                    if (area == null) {
+                        area = node.right.rectHV;
+                    }
+
+                    node.right = insert(node.right, area, newPoint, node.level);
                 }
             } else {
+                System.out.println("-- Y + TOP");
                 if (newPoint.y() < node.point.y()) {
-                    node.left = insert(node.left, newPoint, node.level);
+
+                    RectHV area = null;
+                    if (node.left == null) {
+                        // calculate half-left
+                        //new RectHV()
+
+                        double xmin = node.rectHV.xmin();
+                        double ymin = node.rectHV.ymin();
+                        double xmax = node.rectHV.xmax();
+                        double ymax = node.point.y();
+
+                        area = new RectHV(xmin, ymin, xmax, ymax);
+                    }
+
+                    if (area == null) {
+                        area = node.left.rectHV;
+                    }
+
+                    node.left = insert(node.left, area, newPoint, node.level);
                 } else {
-                    node.right = insert(node.right, newPoint, node.level);
+                    System.out.println("-- Y + BOTTOm");
+                    RectHV area = null;
+                    if (node.right == null) {
+                        // calculate half-right
+                        //new RectHV()
+
+                        double xmin = node.rectHV.xmin();
+                        double ymin = node.point.y();
+                        double xmax = node.rectHV.xmax();
+                        double ymax = node.rectHV.ymax();
+
+                        area = new RectHV(xmin, ymin, xmax, ymax);
+
+                    }
+
+                    if (area == null) {
+                        area = node.right.rectHV;
+                    }
+
+
+                    node.right = insert(node.right, area, newPoint, node.level);
                 }
             }
         } else {
             // node null
-            node = new Node(newPoint, prevLevel + 1);
+
+            node = new Node(newPoint, rectHV, prevLevel + 1);
         }
 
         return node;
@@ -89,8 +179,7 @@ public class KdTree {
     // draw all points to standard draw
     public void draw() {
         StdDraw.rectangle(0, 0, 1, 1);
-        StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.setPenRadius(0.02);
+
         draw(root);
 
     }
@@ -102,14 +191,51 @@ public class KdTree {
         }
         StdDraw.rectangle(0, 0, 1, 1);
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.setPenRadius(0.02);
+        StdDraw.setPenRadius(0.01);
 
         System.out.println("render: " + node.point.toString());
         node.point.draw();
 
+
+
+        System.out.println("---");
+        System.out.println(node.point);
+        System.out.println(node.rectHV);
+        System.out.println("---");
+
+        if (node.isX()) {
+            StdDraw.setPenRadius(0.001);
+            StdDraw.setPenColor(StdDraw.RED);
+
+            Point2D top = new Point2D(node.point.x(), node.rectHV.ymax());
+            Point2D bottom = new Point2D(node.point.x(), node.rectHV.ymin());
+            top.drawTo(bottom);
+
+
+            debugDrawing(top, bottom);
+
+        } else {
+            StdDraw.setPenRadius(0.001);
+            StdDraw.setPenColor(StdDraw.BLUE);
+
+            Point2D right = new Point2D(node.rectHV.xmin(), node.point.y());
+            Point2D left = new Point2D(node.rectHV.xmax(), node.point.y());
+            left.drawTo(right);
+
+             debugDrawing(right, left);
+        }
+
+
         draw(node.left);
         draw(node.right);
 
+    }
+
+    private void debugDrawing(Point2D nodeA, Point2D nodeB) {
+        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.setPenRadius(0.01);
+        nodeA.draw();
+        nodeB.draw();
     }
 
     // all points that are inside the rectangle (or on the boundary)
@@ -155,8 +281,10 @@ public class KdTree {
         kdTree.insert(new Point2D(0.7D, 0.2D));
         kdTree.insert(new Point2D(0.5D, 0.4D));
         kdTree.insert(new Point2D(0.2D, 0.3D));
-        kdTree.insert(new Point2D(0.4D, 0.7D));
-        kdTree.insert(new Point2D(0.9D, 0.6D));
+
+
+       // kdTree.insert(new Point2D(0.4D, 0.7D));
+       // kdTree.insert(new Point2D(0.9D, 0.6D));
 
 
         kdTree.draw();
