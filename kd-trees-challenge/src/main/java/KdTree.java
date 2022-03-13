@@ -254,8 +254,22 @@ public class KdTree {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
+       List<Point2D> points = new ArrayList<>();
+       range(rect, root, points);
+        return points;
+    }
 
-        return null;
+    private void range(RectHV query, Node node, List<Point2D> pointsMatched) {
+        if(node == null) {
+            return ;
+        }
+
+        if(query.intersects(node.rectHV)) {
+            pointsMatched.add(node.point);
+        }
+
+        range(query, node.right, pointsMatched);
+        range(query, node.left, pointsMatched);
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
