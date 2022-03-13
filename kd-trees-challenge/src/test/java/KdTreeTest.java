@@ -253,34 +253,15 @@ class KdTreeTest {
         kdTree.insert(new Point2D(0.4D, 0.7));
         kdTree.insert(new Point2D(0.9D, 0.6));
 
-
         Point2D queryPoint = new Point2D(0.84D, 0.5D);
 
-
-        // Point2D expectedA = new Point2D( 0.7D, 0.2);
         Point2D expectedE = new Point2D(0.9D, 0.6);
-
         Assertions.assertEquals(expectedE, kdTree.nearest(queryPoint));
 
     }
 
     @Test
     public void nearestTest2() {
-        /**
-         *     - failed on trial 28 of 10000
-         *     - sequence of points inserted:
-         *       A  0.7 0.2
-         *       B  0.5 0.4
-         *       C  0.2 0.3
-         *       D  0.4 0.7
-         *       E  0.9 0.6
-         *     - query point                   = (0.489, 0.992)xxxxxxxxxx
-         *     - student   nearest()           = (0.9, 0.6)
-         *     - reference nearest()           = (0.4, 0.7)
-         *     - student   distanceSquaredTo() = 0.322585
-         *     - reference distanceSquaredTo() = 0.093185
-         */
-
         KdTree kdTree = new KdTree();
         kdTree.insert(new Point2D(0.7D, 0.2));
         kdTree.insert(new Point2D(0.5D, 0.4));
@@ -299,5 +280,13 @@ class KdTreeTest {
         Assertions.assertEquals( 0.09318500000000002D, queryPoint.distanceSquaredTo(expected));
     }
 
+    @Test
+    public void nearestEmptyKdTree(){
+        KdTree kdTree = new KdTree();
+
+        Point2D queryPoint = new Point2D(0.489D, 0.992D);
+
+        Assertions.assertNull(kdTree.nearest(queryPoint));
+    }
 
 }
