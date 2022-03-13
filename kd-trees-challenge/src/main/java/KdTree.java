@@ -39,12 +39,12 @@ public class KdTree {
     }
 
     public boolean isEmpty() {
-        return false;
+        return root == null;
     }
 
     // number of points in the set
     public int size() {
-        return 0;
+        return this.size;
     }
 
     // add the point to the set (if it is not already in the set)
@@ -54,6 +54,7 @@ public class KdTree {
             this.root = new Node(p, rectHV, 1);
             return;
         }
+        this.size++;
         this.root = insert(this.root, this.root.rectHV, p, 0);
     }
 
@@ -74,7 +75,6 @@ public class KdTree {
              */
             if (node.isX()) {
                 if (newPoint.x() < node.point.x()) {
-                    System.out.println("-- X + LEFT");
                     RectHV area = null;
                     if (node.left == null) {
                         // calculate half-left
@@ -95,7 +95,6 @@ public class KdTree {
 
                     node.left = insert(node.left, area, newPoint, node.level);
                 } else {
-                    System.out.println("-- X + RIGHT");
                     RectHV area = null;
                     if (node.right == null) {
                         // calculate half-right
@@ -117,7 +116,6 @@ public class KdTree {
                     node.right = insert(node.right, area, newPoint, node.level);
                 }
             } else {
-                System.out.println("-- Y + TOP");
                 if (newPoint.y() < node.point.y()) {
 
                     RectHV area = null;
@@ -139,7 +137,6 @@ public class KdTree {
 
                     node.left = insert(node.left, area, newPoint, node.level);
                 } else {
-                    System.out.println("-- Y + BOTTOm");
                     RectHV area = null;
                     if (node.right == null) {
                         // calculate half-right
@@ -186,22 +183,16 @@ public class KdTree {
 
     private void draw(Node node) {
         if (node == null) {
-            System.out.println("End");
             return;
         }
         StdDraw.rectangle(0, 0, 1, 1);
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setPenRadius(0.01);
 
-        System.out.println("render: " + node.point.toString());
         node.point.draw();
 
 
 
-        System.out.println("---");
-        System.out.println(node.point);
-        System.out.println(node.rectHV);
-        System.out.println("---");
 
         if (node.isX()) {
             StdDraw.setPenRadius(0.001);
@@ -281,12 +272,8 @@ public class KdTree {
         kdTree.insert(new Point2D(0.7D, 0.2D));
         kdTree.insert(new Point2D(0.5D, 0.4D));
         kdTree.insert(new Point2D(0.2D, 0.3D));
-
-
-       // kdTree.insert(new Point2D(0.4D, 0.7D));
-       // kdTree.insert(new Point2D(0.9D, 0.6D));
-
-
+        kdTree.insert(new Point2D(0.4D, 0.7D));
+        kdTree.insert(new Point2D(0.9D, 0.6D));
         kdTree.draw();
 
     }
