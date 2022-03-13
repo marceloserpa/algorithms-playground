@@ -38,7 +38,6 @@ class KdTreeTest {
 
     @Test
     public void sizeTest() {
-
         KdTree kd = new KdTree();
         kd.insert(new Point2D(0.25D, 0.5D));
         kd.insert(new Point2D(0.75D, 0.25D));
@@ -47,8 +46,55 @@ class KdTreeTest {
 
         Assertions.assertFalse(kd.isEmpty());
         Assertions.assertEquals(3, kd.size());
+    }
+
+    @Test
+    public void sizeTest2(){
+        KdTree kd = new KdTree();
+        kd.insert(new Point2D(0.5D, 0.5D));
+
+        Assertions.assertFalse(kd.isEmpty());
+        Assertions.assertEquals(1, kd.size());
+    }
+
+    @Test
+    public void queryTest(){
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.7D, 0.2D));
+        kdTree.insert(new Point2D(0.5D, 0.4D));
+        kdTree.insert(new Point2D(0.2D, 0.3D));
+        kdTree.insert(new Point2D(0.4D, 0.7D));
+        kdTree.insert(new Point2D(0.9D, 0.6D));
+
+        Point2D queryPoint = new Point2D(0.5D, 0.4D);
+
+        Assertions.assertTrue(kdTree.contains(queryPoint));
+    }
+
+    @Test
+    public void queryInvalidPointTest(){
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(0.7D, 0.2D));
+        kdTree.insert(new Point2D(0.5D, 0.4D));
+        kdTree.insert(new Point2D(0.2D, 0.3D));
+        kdTree.insert(new Point2D(0.4D, 0.7D));
+        kdTree.insert(new Point2D(0.9D, 0.6D));
+
+        Point2D queryPoint = new Point2D(0.5D, 0.88D);
+
+        Assertions.assertFalse(kdTree.contains(queryPoint));
+    }
 
 
+
+    @Test
+    public void queryTest2(){
+        KdTree kdTree = new KdTree();
+        kdTree.insert(new Point2D(1D, 0D));
+
+        Point2D queryPoint = new Point2D(1D, 0D);
+
+        Assertions.assertTrue(kdTree.contains(queryPoint));
     }
 
 }

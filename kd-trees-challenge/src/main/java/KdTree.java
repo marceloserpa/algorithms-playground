@@ -170,7 +170,32 @@ public class KdTree {
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
-        return false;
+        return search(p, root);
+    }
+
+    private boolean search(Point2D point, Node node) {
+        if(node == null) {
+            return false;
+        }
+
+        if(point.equals(node.point)) {
+            return true;
+        }
+
+        if (node.isX()) {
+            if (point.x() < node.point.x()) {
+                return search(point, node.left);
+            } else {
+                return search(point, node.right);
+            }
+        } else {
+            if (point.y() < node.point.y()) {
+                return search(point, node.left);
+            } else {
+                return search(point, node.right);
+            }
+        }
+
     }
 
     // draw all points to standard draw
@@ -192,8 +217,6 @@ public class KdTree {
         node.point.draw();
 
 
-
-
         if (node.isX()) {
             StdDraw.setPenRadius(0.001);
             StdDraw.setPenColor(StdDraw.RED);
@@ -213,7 +236,7 @@ public class KdTree {
             Point2D left = new Point2D(node.rectHV.xmax(), node.point.y());
             left.drawTo(right);
 
-             debugDrawing(right, left);
+            debugDrawing(right, left);
         }
 
 
@@ -238,30 +261,6 @@ public class KdTree {
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
 
-        /**
-
-         Point2D nearest = null;
-         double distance = 0D;
-
-         for(Point2D point2D : points) {
-         if(nearest == null) {
-         nearest = point2D;
-         distance = p.distanceTo(nearest);
-         } else {
-
-         double tmp = p.distanceTo(nearest);
-         if(distance > tmp) {
-         distance = tmp;
-         nearest = p;
-         }
-
-
-         }
-
-         }
-
-
-         return nearest;***/
         return null;
     }
 
