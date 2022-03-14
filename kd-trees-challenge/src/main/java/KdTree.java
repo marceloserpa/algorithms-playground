@@ -235,7 +235,7 @@ public class KdTree {
             top.drawTo(bottom);
 
 
-            debugDrawing(top, bottom);
+       //     debugDrawing(top, bottom);
 
         } else {
             StdDraw.setPenRadius(0.001);
@@ -245,7 +245,7 @@ public class KdTree {
             Point2D left = new Point2D(node.rectHV.xmax(), node.point.y());
             left.drawTo(right);
 
-            debugDrawing(right, left);
+     //       debugDrawing(right, left);
         }
 
 
@@ -343,12 +343,22 @@ public class KdTree {
 
 
     // unit testing of the methods (optional)
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         KdTree kdTree = new KdTree();
+
         kdTree.insert(new Point2D(0.7D, 0.2D));
+        kdTree.draw();
+        int timer = 500;
+        Thread.sleep(timer);
         kdTree.insert(new Point2D(0.5D, 0.4D));
+        kdTree.draw();
+        Thread.sleep(timer);
         kdTree.insert(new Point2D(0.2D, 0.3D));
+        kdTree.draw();
+        Thread.sleep(timer);
         kdTree.insert(new Point2D(0.4D, 0.7D));
+        kdTree.draw();
+        Thread.sleep(timer);
         kdTree.insert(new Point2D(0.9D, 0.6D));
         kdTree.draw();
 
