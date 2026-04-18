@@ -15,6 +15,16 @@ class FenwickTree(var capacity: Int) {
 
     fun lowBit(i: Int): Int = i and -i
 
+    fun sum(index: Int): Int {
+        var sum: Int = 0
+        var localIndex = index;
+        while (localIndex > 0) {
+            sum += tree[localIndex]
+            localIndex -= lowBit(localIndex)
+        }
+        return sum
+
+    }
 }
 
 
@@ -25,6 +35,10 @@ fun main() {
     for(i in numbers.indices) {
         ft.putValue(i,numbers[i])
     }
+
+    println(ft.sum(8))
+    println(ft.sum(3))
+    println(ft.sum(4))
 
     println(ft.tree.contentToString())
 
