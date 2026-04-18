@@ -2,15 +2,17 @@ package com.marceloserpa
 
 class FenwickTree(var capacity: Int) {
 
-    var tree: IntArray = IntArray(capacity + 1){0};
+    // binary indexed tree
+    // added +1 because the position 0 will be ignored
+    var BIT: IntArray = IntArray(capacity + 1){0};
 
     fun putValue(index: Int, value: Int) {
         var localIndex = index + 1;
         do {
-            tree[localIndex] = tree[localIndex] + value
+            BIT[localIndex] = BIT[localIndex] + value
             localIndex += lowBit(localIndex)
         } while (localIndex <= capacity)
-        println(tree.contentToString())
+        println(BIT.contentToString())
     }
 
     fun lowBit(i: Int): Int = i and -i
@@ -19,11 +21,11 @@ class FenwickTree(var capacity: Int) {
         var sum: Int = 0
         var localIndex = index;
         while (localIndex > 0) {
-            sum += tree[localIndex]
+            println("read index ${localIndex} = ${BIT[localIndex]}")
+            sum += BIT[localIndex]
             localIndex -= lowBit(localIndex)
         }
         return sum
-
     }
 }
 
@@ -36,10 +38,10 @@ fun main() {
         ft.putValue(i,numbers[i])
     }
 
-    println(ft.sum(8))
-    println(ft.sum(3))
-    println(ft.sum(4))
+    //println(ft.sum(8))
+    //println(ft.sum(3))
+    println(ft.sum(5))
 
-    println(ft.tree.contentToString())
+    println(ft.BIT.contentToString())
 
 }
