@@ -21,7 +21,7 @@ class FenwickTree(var capacity: Int) {
         var sum: Int = 0
         var localIndex = index;
         while (localIndex > 0) {
-            println("read index ${localIndex} = ${BIT[localIndex]}")
+            println("lowBit = ${lowBit(localIndex)} currentIndex = ${localIndex} value = ${BIT[localIndex]}")
             sum += BIT[localIndex]
             localIndex -= lowBit(localIndex)
         }
@@ -44,9 +44,9 @@ fun main() {
 
     //println(ft.sum(8))
     //println(ft.sum(3))
-    //println(ft.sum(5))
+    println(ft.sum(5))
 
-    println(ft.range(4, 7))
+    //println(ft.range(4, 7))
     println(ft.BIT.contentToString())
 
 }
