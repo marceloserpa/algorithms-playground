@@ -27,6 +27,10 @@ class FenwickTree(var capacity: Int) {
         }
         return sum
     }
+
+    fun range(start: Int, end: Int): Int {
+        return sum(end) - sum(start)
+    }
 }
 
 
@@ -40,8 +44,9 @@ fun main() {
 
     //println(ft.sum(8))
     //println(ft.sum(3))
-    println(ft.sum(5))
+    //println(ft.sum(5))
 
+    println(ft.range(4, 7))
     println(ft.BIT.contentToString())
 
 }
