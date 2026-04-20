@@ -32,21 +32,3 @@ class FenwickTree(var capacity: Int) {
         return sum(end) - sum(start)
     }
 }
-
-
-fun main() {
-
-    val numbers: IntArray = intArrayOf(5,2,9,-3,5,20,10,-7,2,3,-4,0,-2,15,5)
-    val ft  = FenwickTree(numbers.size)
-    for(i in numbers.indices) {
-        ft.putValue(i,numbers[i])
-    }
-
-    //println(ft.sum(8))
-    //println(ft.sum(3))
-    println(ft.sum(5))
-
-    //println(ft.range(4, 7))
-    println(ft.BIT.contentToString())
-
-}
