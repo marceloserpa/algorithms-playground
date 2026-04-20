@@ -2,6 +2,15 @@ package com.marceloserpa
 
 class FenwickTree(private var capacity: Int) {
 
+    companion object {
+        fun createFromValues(numbers: IntArray): FenwickTree {
+            val fenwickTree = FenwickTree(numbers.size)
+            for(i in numbers.indices) {
+                fenwickTree.putValue(i,numbers[i])
+            }
+            return fenwickTree
+        }
+    }
     // binary indexed tree
     // added +1 because the position 0 will be ignored
     private var BIT: IntArray = IntArray(capacity + 1){0};
@@ -31,4 +40,6 @@ class FenwickTree(private var capacity: Int) {
     fun range(start: Int, end: Int): Int {
         return sum(end) - sum(start)
     }
+
+
 }
