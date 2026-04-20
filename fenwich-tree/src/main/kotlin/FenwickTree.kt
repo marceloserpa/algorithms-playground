@@ -1,10 +1,10 @@
 package com.marceloserpa
 
-class FenwickTree(var capacity: Int) {
+class FenwickTree(private var capacity: Int) {
 
     // binary indexed tree
     // added +1 because the position 0 will be ignored
-    var BIT: IntArray = IntArray(capacity + 1){0};
+    private var BIT: IntArray = IntArray(capacity + 1){0};
 
     fun putValue(index: Int, value: Int) {
         var localIndex = index + 1;
@@ -15,7 +15,7 @@ class FenwickTree(var capacity: Int) {
         println(BIT.contentToString())
     }
 
-    fun lowBit(i: Int): Int = i and -i
+    private fun lowBit(i: Int): Int = i and -i
 
     fun sum(index: Int): Int {
         var sum: Int = 0
