@@ -40,19 +40,20 @@ public class Solution2 {
 
         for(int i = n-1; i >= 0; i--) {
 
-            // clean visible people
+            // cleaning visible people counter
             visiblePeople = 0;
 
-            // heights[i] greater than stack first position means the new entry is taller the value return in peek()
-            // so the person in on top of stack with NOT be visible after the insertion of new entry
-            // this is why we need to pop the current values from stack and call it as visible (by taller entry)
+            // heights[i] greater than stack top position means the new entry is taller
+            // so the person on top of stack with NOT be visible after the insertion of new entry
+            // this is why we need to pop the top element from stack and increase the visible people
+            // counter since the element is visible by new entry
             while(!stack.isEmpty() && stack.peek() < heights[i]){
                 stack.pop();
                 visiblePeople++;
             }
 
-            // if the stack is not empty, it means we have an element inside stack, as the previous while remove
-            // values lower than new entry we have sure current element on stack is visible.
+            // The previous while removed all elements lower than new entry it means if the stack is not empty
+            // the new element will be able to see one more element.
             if(!stack.isEmpty()) {
                 visiblePeople++;
             }
