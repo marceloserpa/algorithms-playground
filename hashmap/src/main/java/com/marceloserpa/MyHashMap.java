@@ -45,9 +45,13 @@ public class MyHashMap {
         }
         while(entry.next != null) {
             entry = entry.next;
-            if(entry.key != key){
+            if(entry.key == key){
                 break;
             }
+        }
+
+        if(entry.key != key) {
+            return 0;
         }
         return entry.value;
     }
