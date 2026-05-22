@@ -25,13 +25,30 @@ public class MyHashMap {
         int index = hash(key);
         if(table[index] != null) {
             System.out.printf("Key=%d Collision Detected!!!!%n\n", key);
+
+            Entry entry = table[index];
+            while(entry.next != null) {
+                entry = entry.next;
+            }
+            entry.next = new Entry(key,value, null);
+        }else{
+            table[index] = new Entry(key, value, null);
         }
-        table[index] = new Entry(key, value, null);
+
     }
 
     public int get(int key){
         int index = hash(key);
         Entry entry = table[index];
+        if(entry.key == key) {
+            return entry.value;
+        }
+        while(entry.next != null) {
+            entry = entry.next;
+            if(entry.key != key){
+                break;
+            }
+        }
         return entry.value;
     }
 
