@@ -49,7 +49,7 @@ class MyHashMapTest {
         myHashMap.put(1, 100);
         myHashMap.remove(1);
 
-        assertEquals(0, myHashMap.get(1));
+        assertEquals(-1, myHashMap.get(1));
     }
 
     @Test
@@ -59,7 +59,7 @@ class MyHashMapTest {
         myHashMap.put(11, 56);
         myHashMap.remove(11);
 
-        assertEquals(0, myHashMap.get(11));
+        assertEquals(-1, myHashMap.get(11));
     }
 
 
@@ -75,6 +75,21 @@ class MyHashMapTest {
 
         assertEquals(2, myHashMap.get(11));
         assertEquals(4, myHashMap.get(31));
+    }
+
+    @Test
+    public void leetcodeTestCase(){
+        var myHashMap = new MyHashMap();
+        myHashMap.put(1, 1);
+        myHashMap.put(2, 2);
+        assertEquals(1, myHashMap.get(1));
+        assertEquals(-1, myHashMap.get(3));
+
+        myHashMap.put(2, 1);
+        assertEquals(1, myHashMap.get(2));
+        myHashMap.remove(2);
+
+        assertEquals(-1, myHashMap.get(2));
     }
 
 }

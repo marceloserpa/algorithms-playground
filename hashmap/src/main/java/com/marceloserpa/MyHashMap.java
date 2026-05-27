@@ -58,7 +58,7 @@ public class MyHashMap {
         int index = hash(key);
         Entry entry = table[index];
 
-        if(entry == null) return 0;
+        if(entry == null) return -1;
 
         if(entry.key == key) {
             return entry.value;
@@ -71,7 +71,7 @@ public class MyHashMap {
         }
 
         if(entry.key != key) {
-            return 0;
+            return -1;
         }
         return entry.value;
     }
