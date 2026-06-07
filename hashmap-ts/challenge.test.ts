@@ -169,3 +169,31 @@ describe("MyMap", () => {
     });
 
 });
+
+
+import { waysToPartition } from './leetcode';
+
+describe('LeetCode 2025 - Maximum Number of Ways to Partition an Array', () => {
+
+    test('Example 1', () => {
+        const nums = [2, -1, 2];
+        const k = 3;
+
+        expect(waysToPartition(nums, k)).toBe(1);
+    });
+
+    test('Example 2', () => {
+        const nums = [0, 0, 0];
+        const k = 1;
+
+        expect(waysToPartition(nums, k)).toBe(2);
+    });
+
+    test('Example 3', () => {
+        const nums = [22, 4, -25, -20, -15, 15, -16, 7, 19, -10, 0, -13, -14];
+        const k = -33;
+
+        expect(waysToPartition(nums, k)).toBe(4);
+    });
+
+});
