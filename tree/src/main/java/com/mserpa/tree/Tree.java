@@ -56,4 +56,18 @@ public class Tree {
 
     }
 
+    public void delete(int value, int[] parents){
+        if(parents[0] != rootNode.data){
+            throw new NoSuchElementException("Root is invalid.");
+        }
+
+        Node parent = searchParent(parents);
+
+        for(Node toDelete : parent.children){
+            if(toDelete.data == value) {
+                System.out.println(" delete in process");
+            }
+        }
+    }
+
 }
