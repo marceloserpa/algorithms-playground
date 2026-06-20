@@ -166,4 +166,24 @@ class SegmentTreeRecTest {
         assertEquals(7, tree.query(1, 1));
     }
 
+    @Test
+    void max_afterUpdate() {
+        int[] elements = new int[]{6,10,5,2,7,1,0,9};
+        var tree = new SegmentTreeRec(elements);
+        assertEquals(10, tree.query(1, 4));
+
+        tree.update(1, 8);
+        assertEquals(8, tree.query(1, 4));
+    }
+
+    @Test
+    void max_afterUpdateToLowerValue() {
+        int[] elements = new int[]{6,10,5,2,7,1,0,9};
+        var tree = new SegmentTreeRec(elements);
+        assertEquals(10, tree.query(1, 4));
+
+        tree.update(1, 4);
+        assertEquals(7, tree.query(1, 4));
+    }
+
 }

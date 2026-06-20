@@ -29,6 +29,7 @@ public class SegmentTreeRec {
         tree[parentNodeIndex] = Math.max(tree[2 * parentNodeIndex + 1], tree[2 * parentNodeIndex + 2]);
     }
 
+    // inspiration: https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/
     public int query(int queryLeft, int queryRight){
         return query(0, 0, this.size -1, queryLeft, queryRight);
     }
@@ -44,6 +45,27 @@ public class SegmentTreeRec {
 
         int mid = lo + (hi - lo) / 2;
         return Math.max(query(2 * parentTreeIndex + 1, lo, mid, queryLeft, queryRight), query(2 * parentTreeIndex + 2, mid +1 , hi, queryLeft, queryRight));
+    }
+
+    public void update(int index, int value) {
+        update(0, 0, this.size - 1, index, value);
+    }
+
+    private void update(int parentTreeIndex, int lo, int hi, int index, int value) {
+        if(lo == hi) {
+            tree[parentTreeIndex] = value;
+            return;
+        }
+
+        int mid = lo + (hi - lo) / 2;
+
+        if(index > mid) {
+            update(2 * parentTreeIndex + 2, mid + 1, hi, index, value);
+        } else {
+            update(2 * parentTreeIndex + 1, lo, mid, index, value);
+        }
+
+        tree[parentTreeIndex] = Math.max(tree[2 * parentTreeIndex + 1], tree[2 * parentTreeIndex + 2]);
     }
 
 }
